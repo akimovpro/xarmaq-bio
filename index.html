@@ -39,7 +39,9 @@
       border-radius: 50%;
       animation: spin 1s linear infinite;
     }
-    @keyframes spin { to { transform: rotate(360deg); } }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
 
     .storm {
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -52,8 +54,13 @@
     }
 
     .container {
-      position: relative; display: flex; justify-content: center; align-items: center;
-      min-height: 100vh; padding: 20px; perspective: 1000px;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+      perspective: 1000px;
     }
     .profile-card {
       position: relative;
@@ -78,11 +85,17 @@
       margin-right: 30px;
     }
     .profile-image {
-      width: 150px; height: 150px; border-radius: 50%;
-      overflow: hidden; border: 3px solid #fff; transition: transform 0.6s ease;
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 3px solid #fff;
+      transition: transform 0.6s ease;
     }
     .profile-image img {
-      width: 100%; height: 100%; object-fit: cover;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
     .profile-image:hover {
       transform: rotate(360deg);
@@ -99,31 +112,60 @@
       color: #fff;
       transition: color 0.5s ease;
     }
-    .profile-right h1:hover { color: #ff4444; }
+    .profile-right h1:hover {
+      color: #ff4444;
+    }
     .profile-right h1::before,
     .profile-right h1::after {
       content: attr(data-text);
-      position: absolute; top: 0; left: 0;
-      width: 100%; opacity: 0; color: #ff4444;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      opacity: 0;
+      color: #ff4444;
     }
     .profile-right h1:hover::before {
-      animation: glitchTop 0.5s linear infinite; opacity: 1;
+      animation: glitchTop 0.5s linear infinite;
+      opacity: 1;
     }
     .profile-right h1:hover::after {
-      animation: glitchBottom 0.5s linear infinite; opacity: 1;
+      animation: glitchBottom 0.5s linear infinite;
+      opacity: 1;
     }
     @keyframes glitchTop {
-      0% { clip: rect(0,9999px,0,0); transform: translate(0); }
-      50% { clip: rect(0,9999px,30px,0); transform: translate(-3px,-3px); }
-      100% { clip: rect(0,9999px,0,0); transform: translate(0); }
+      0% {
+        clip: rect(0,9999px,0,0);
+        transform: translate(0);
+      }
+      50% {
+        clip: rect(0,9999px,30px,0);
+        transform: translate(-3px,-3px);
+      }
+      100% {
+        clip: rect(0,9999px,0,0);
+        transform: translate(0);
+      }
     }
     @keyframes glitchBottom {
-      0% { clip: rect(0,9999px,0,0); transform: translate(0); }
-      50% { clip: rect(30px,9999px,60px,0); transform: translate(3px,3px); }
-      100% { clip: rect(0,9999px,0,0); transform: translate(0); }
+      0% {
+        clip: rect(0,9999px,0,0);
+        transform: translate(0);
+      }
+      50% {
+        clip: rect(30px,9999px,60px,0);
+        transform: translate(3px,3px);
+      }
+      100% {
+        clip: rect(0,9999px,0,0);
+        transform: translate(0);
+      }
     }
     .tags {
-      display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 20px;
     }
     .tag {
       background: rgba(34,34,34,0.8);
@@ -135,22 +177,37 @@
       animation: tagGlow 2s infinite ease-in-out;
     }
     @keyframes tagGlow {
-      0%,100% { box-shadow: 0 0 5px rgba(255,0,0,0.2); }
-      50% { box-shadow: 0 0 15px rgba(255,0,0,0.8); }
+      0%,100% {
+        box-shadow: 0 0 5px rgba(255,0,0,0.2);
+      }
+      50% {
+        box-shadow: 0 0 15px rgba(255,0,0,0.8);
+      }
     }
     .links {
-      display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 20px;
     }
     .links a {
-      position: relative; text-decoration: none; color: #fff;
-      background: rgba(51,51,51,0.8); padding: 12px;
-      border: 2px solid transparent; border-radius: 10px;
-      transition: all 0.3s ease; overflow: hidden;
-      display: inline-flex; align-items: center;
+      position: relative;
+      text-decoration: none;
+      color: #fff;
+      background: rgba(51,51,51,0.8);
+      padding: 12px;
+      border: 2px solid transparent;
+      border-radius: 10px;
+      transition: all 0.3s ease;
+      overflow: hidden;
+      display: inline-flex;
+      align-items: center;
       animation: buttonRock 4s infinite ease-in-out;
     }
     .links a:hover,
-    .links a:active { border-color: #fff; }
+    .links a:active {
+      border-color: #fff;
+    }
     @keyframes buttonRock {
       0% { transform: perspective(1000px) rotateX(0deg) rotateY(0deg); }
       25% { transform: perspective(1000px) rotateX(2deg) rotateY(-2deg); }
@@ -159,7 +216,8 @@
       100% { transform: perspective(1000px) rotateX(0deg) rotateY(0deg); }
     }
     .button-container {
-      text-align: center; margin-top: 10px;
+      text-align: center;
+      margin-top: 10px;
     }
     .profile-button {
       display: inline-flex;
@@ -184,29 +242,45 @@
 
     @media (max-width: 768px) {
       .profile-card {
-        flex-direction: column; width: 90%; max-width: 400px;
-        padding: 20px; animation: slideInUp 0.8s ease-out;
+        flex-direction: column;
+        width: 90%;
+        max-width: 400px;
+        padding: 20px;
+        animation: slideInUp 0.8s ease-out;
       }
       .profile-left {
-        margin-right: 0; margin-bottom: 20px;
+        margin-right: 0;
+        margin-bottom: 20px;
       }
       .profile-image {
-        width: 120px; height: 120px;
+        width: 120px;
+        height: 120px;
       }
       .profile-right h1 {
-        font-size: 1.8rem; margin-bottom: 8px;
+        font-size: 1.8rem;
+        margin-bottom: 8px;
       }
-      .tag { animation: fadeIn 1s ease; }
+      .tag {
+        animation: fadeIn 1s ease;
+      }
       .links a {
-        padding: 10px; font-size: 0.9rem;
+        padding: 10px;
+        font-size: 0.9rem;
       }
       .profile-button {
-        padding: 10px 20px; font-size: 0.9rem;
+        padding: 10px 20px;
+        font-size: 0.9rem;
       }
     }
     @keyframes slideInUp {
-      from { transform: translateY(50px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
+      from {
+        transform: translateY(50px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
     }
     @keyframes fadeIn {
       from { opacity: 0; }
@@ -242,9 +316,10 @@
           <span class="tag">hashtag</span>
         </div>
         <div class="links">
-          <a href="https://www.tiktok.com/@MS4wLjABAAAAdwLEXL05bdNVF0BSOkMvAv_6iqmHvxD-9vyLRt06_tK0pDQgk94UzIBAxaajwuUc?_t=ZS-8u1Qqsdkrzd&_r=1" target="_blank">
-            <img class="icon" src="https://images.seeklogo.com/logo-png/34/2/tiktok-logo-png_seeklogo-340606.png" alt="TikTok Logo">
-            TikTok
+          <!-- Кнопка Discord с новой иконкой (SVG без фона) -->
+          <a href="https://discord.com/users/812620606406393886" target="_blank">
+            <img class="icon" src="https://www.svgrepo.com/show/353655/discord-icon.svg" alt="Discord Logo">
+            Discord
           </a>
           <a href="https://www.instagram.com/xarmaq/" target="_blank">
             <img class="icon" src="https://images.seeklogo.com/logo-png/28/2/instagram-new-2016-logo-png_seeklogo-282177.png" alt="Instagram Logo">
@@ -293,9 +368,7 @@
         card.style.transform = restingTransform;
       });
 
-      // 2) 3D-эффект при touchmove (мобильное перетаскивание) - оставим как было, если нужно
-      //    (Но вы сказали, что не нужно двигать пальцем, а наклонять телефон --
-      //     всё же оставим этот кусок кода, если хотим сохранить "finger-drag" как fallback)
+      // 2) 3D-эффект при touchmove (мобильное перетаскивание) - fallback
       card.addEventListener('touchmove', (e) => {
         if (e.touches.length === 1) {
           e.preventDefault(); // отключаем скролл под карточкой
@@ -330,24 +403,18 @@
         card.classList.remove('active');
       });
 
-
       // 3) 3D-эффект при наклоне телефона (гироскоп deviceorientation)
-      //    Сначала проверяем, нужна ли нам просьба о разрешении (iOS)
       function handleOrientation(event) {
-        // event.beta:  -180 .. 180  (наклон вперёд/назад)
-        // event.gamma:  -90 .. 90   (наклон влево/вправо)
-        // ограничим углы, например, ±20
-        let beta = event.beta;   // front-back
+        let beta = event.beta;   // front/back
         let gamma = event.gamma; // left-right
 
-        // clamp
         if (beta > 20) beta = 20;
         if (beta < -20) beta = -20;
         if (gamma > 20) gamma = 20;
         if (gamma < -20) gamma = -20;
 
-        const rotateX = -beta;   // invert front/back
-        const rotateY = gamma;   // left-right
+        const rotateX = -beta;
+        const rotateY = gamma;
         card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
       }
 
@@ -355,24 +422,21 @@
       function requestDeviceOrientation() {
         if (typeof DeviceOrientationEvent.requestPermission === 'function') {
           DeviceOrientationEvent.requestPermission()
-          .then((response) => {
-            if (response === 'granted') {
-              window.addEventListener('deviceorientation', handleOrientation);
-            } else {
-              console.warn('Разрешение на доступ к гироскопу отклонено.');
-            }
-          })
-          .catch(console.error);
+            .then((response) => {
+              if (response === 'granted') {
+                window.addEventListener('deviceorientation', handleOrientation);
+              } else {
+                console.warn('Разрешение на доступ к гироскопу отклонено.');
+              }
+            })
+            .catch(console.error);
         } else {
           // На Android или более старых iOS можно сразу слушать
           window.addEventListener('deviceorientation', handleOrientation);
         }
       }
 
-      // Добавляем кнопку / или делаем автозапрос
-      // В iOS нужно это сделать по жесту пользователя
-      // Можно, к примеру, показать диалог "Нажмите, чтобы включить наклон"
-      // Ниже - упрощённый пример автозапуска (может не сработать на iOS без клика)
+      // Автозапрос (на iOS может потребоваться жест)
       requestDeviceOrientation();
     });
   </script>
