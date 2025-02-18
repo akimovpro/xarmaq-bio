@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <!-- Корректное масштабирование для мобильных устройств -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Карточка с PNG-логотипами</title>
+  <title>Карточка с PNG-логотипами (3D на мобильных)</title>
   <!-- Подключение шрифта -->
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
@@ -183,7 +183,6 @@
     }
 
     /* Кнопка Telegram (ссылка), по центру внизу */
-    /* НИЧЕГО не меняем в размере, просто оборачиваем в контейнер с text-align:center */
     .profile-button {
       display: inline-flex;
       align-items: center;
@@ -214,7 +213,13 @@
       100% { transform: perspective(1000px) rotateX(0deg) rotateY(0deg); }
     }
 
-    /* Адаптив */
+    /* Контейнер для кнопки, чтобы она была снизу и по центру */
+    .button-container {
+      text-align: center; 
+      margin-top: 10px;
+    }
+
+    /* Адаптив (мобильные) */
     @media (max-width: 768px) {
       .profile-card {
         flex-direction: column; width: 90%; max-width: 400px;
@@ -288,8 +293,8 @@
             Instagram
           </a>
         </div>
-        <!-- Обёртка с text-align: center; чтобы кнопка была снизу и по центру -->
-        <div style="text-align: center; margin-top: 10px;">
+        <!-- Кнопка Telegram снизу, по центру -->
+        <div class="button-container">
           <a class="profile-button" href="https://telegram.me/xarmaq/" target="_blank">
             <img class="icon" src="https://images.seeklogo.com/logo-png/36/2/telegram-new-2019-simple-logo-png_seeklogo-364501.png" alt="Telegram Logo">
             Telegram
@@ -313,7 +318,7 @@
       const restingTransform = 'rotateX(0deg) rotateY(0deg) scale(1)';
       card.style.transform = restingTransform;
 
-      // 3D-эффект (±20°)
+      // 3D-эффект (±20°) при mousemove
       card.addEventListener('mousemove', (e) => {
         const rect = card.getBoundingClientRect();
         const x = e.clientX - rect.left;
@@ -330,19 +335,45 @@
         card.style.transform = restingTransform;
       });
 
-      // Мобильный эффект нажатия
-      if ('ontouchstart' in window) {
-        card.addEventListener('touchstart', () => {
-          card.classList.add('active');
-          if (navigator.vibrate) navigator.vibrate(50);
-        });
-        card.addEventListener('touchend', () => {
-          card.classList.remove('active');
-        });
-        card.addEventListener('touchcancel', () => {
-          card.classList.remove('active');
-        });
-      }
+      // 3D-эффект при touchmove (мобильные)
+      card.addEventListener('touchmove', (e) => {
+        // Если 1 палец, делаем вращение
+        if (e.touches.length === 1) {
+          // Предотвращаем скролл под карточкой
+          e.preventDefault();
+          
+          const rect = card.getBoundingClientRect();
+          const touch = e.touches[0];
+          const x = touch.clientX - rect.left;
+          const y = touch.clientY - rect.top;
+          const centerX = rect.width / 2;
+          const centerY = rect.height / 2;
+          const deltaX = x - centerX;
+          const deltaY = y - centerY;
+          const rotateX = (deltaY / centerY) * -20;
+          const rotateY = (deltaX / centerX) * 20;
+          card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1)`;
+        }
+      }, { passive: false });
+      
+      card.addEventListener('touchend', () => {
+        card.style.transform = restingTransform;
+      });
+      card.addEventListener('touchcancel', () => {
+        card.style.transform = restingTransform;
+      });
+
+      // Эффект нажатия + вибрация
+      card.addEventListener('touchstart', () => {
+        card.classList.add('active');
+        if (navigator.vibrate) navigator.vibrate(50);
+      });
+      card.addEventListener('touchend', () => {
+        card.classList.remove('active');
+      });
+      card.addEventListener('touchcancel', () => {
+        card.classList.remove('active');
+      });
     });
   </script>
 </body>
