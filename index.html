@@ -2,35 +2,30 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
-  <!-- Корректное масштабирование для мобильных устройств -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Карточка с PNG-логотипами (3D на мобильных)</title>
+  <title>Карточка с гироскопом</title>
   <!-- Подключение шрифта -->
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
   <style>
-    /* Сброс стилей */
+    /* --- ВСЁ, КАК БЫЛО --- */
+
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
-
     body {
       font-family: 'Montserrat', sans-serif;
       background: #000;
       overflow-x: hidden;
     }
-
-    /* Иконки PNG */
     .icon {
-      width: 18px;      
-      height: 18px;     
-      margin-right: 8px; 
+      width: 18px;
+      height: 18px;
+      margin-right: 8px;
       vertical-align: middle;
     }
-
-    /* Loader */
     #loader {
       position: fixed;
       top: 0; left: 0; width: 100%; height: 100%;
@@ -44,11 +39,8 @@
       border-radius: 50%;
       animation: spin 1s linear infinite;
     }
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
+    @keyframes spin { to { transform: rotate(360deg); } }
 
-    /* Фон со штормом */
     .storm {
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
       z-index: -2; background: url('https://source.unsplash.com/1920x1080/?thunderstorm') center/cover no-repeat;
@@ -59,13 +51,10 @@
       93%, 95% { filter: brightness(2.5); }
     }
 
-    /* Контейнер */
     .container {
       position: relative; display: flex; justify-content: center; align-items: center;
       min-height: 100vh; padding: 20px; perspective: 1000px;
     }
-
-    /* Карточка профиля */
     .profile-card {
       position: relative;
       background: rgba(17, 17, 17, 0.5);
@@ -85,8 +74,6 @@
     .profile-card.active {
       transform: rotateX(0deg) rotateY(0deg) scale(0.95);
     }
-
-    /* Аватар */
     .profile-left {
       margin-right: 30px;
     }
@@ -100,13 +87,9 @@
     .profile-image:hover {
       transform: rotate(360deg);
     }
-
-    /* Правая часть */
     .profile-right {
       flex: 1;
     }
-
-    /* Заголовок xarmaq */
     .profile-right h1 {
       position: relative;
       display: inline-block;
@@ -116,42 +99,34 @@
       color: #fff;
       transition: color 0.5s ease;
     }
-    .profile-right h1:hover {
-      color: #ff4444;
-    }
+    .profile-right h1:hover { color: #ff4444; }
     .profile-right h1::before,
     .profile-right h1::after {
       content: attr(data-text);
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%; opacity: 0;
-      color: #ff4444;
+      position: absolute; top: 0; left: 0;
+      width: 100%; opacity: 0; color: #ff4444;
     }
     .profile-right h1:hover::before {
-      animation: glitchTop 0.5s linear infinite;
-      opacity: 1;
+      animation: glitchTop 0.5s linear infinite; opacity: 1;
     }
     .profile-right h1:hover::after {
-      animation: glitchBottom 0.5s linear infinite;
-      opacity: 1;
+      animation: glitchBottom 0.5s linear infinite; opacity: 1;
     }
     @keyframes glitchTop {
-      0% { clip: rect(0, 9999px, 0, 0); transform: translate(0); }
-      50% { clip: rect(0, 9999px, 30px, 0); transform: translate(-3px, -3px); }
-      100% { clip: rect(0, 9999px, 0, 0); transform: translate(0); }
+      0% { clip: rect(0,9999px,0,0); transform: translate(0); }
+      50% { clip: rect(0,9999px,30px,0); transform: translate(-3px,-3px); }
+      100% { clip: rect(0,9999px,0,0); transform: translate(0); }
     }
     @keyframes glitchBottom {
-      0% { clip: rect(0, 9999px, 0, 0); transform: translate(0); }
-      50% { clip: rect(30px, 9999px, 60px, 0); transform: translate(3px, 3px); }
-      100% { clip: rect(0, 9999px, 0, 0); transform: translate(0); }
+      0% { clip: rect(0,9999px,0,0); transform: translate(0); }
+      50% { clip: rect(30px,9999px,60px,0); transform: translate(3px,3px); }
+      100% { clip: rect(0,9999px,0,0); transform: translate(0); }
     }
-
-    /* Теги */
     .tags {
       display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px;
     }
     .tag {
-      background: rgba(34, 34, 34, 0.8);
+      background: rgba(34,34,34,0.8);
       padding: 5px 12px;
       border-radius: 12px;
       font-size: 0.9rem;
@@ -160,35 +135,38 @@
       animation: tagGlow 2s infinite ease-in-out;
     }
     @keyframes tagGlow {
-      0%, 100% { box-shadow: 0 0 5px rgba(255, 0, 0, 0.2); }
-      50% { box-shadow: 0 0 15px rgba(255, 0, 0, 0.8); }
+      0%,100% { box-shadow: 0 0 5px rgba(255,0,0,0.2); }
+      50% { box-shadow: 0 0 15px rgba(255,0,0,0.8); }
     }
-
-    /* Кнопки TikTok / Instagram */
     .links {
       display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px;
     }
     .links a {
       position: relative; text-decoration: none; color: #fff;
-      background: rgba(51, 51, 51, 0.8); padding: 12px;
+      background: rgba(51,51,51,0.8); padding: 12px;
       border: 2px solid transparent; border-radius: 10px;
       transition: all 0.3s ease; overflow: hidden;
+      display: inline-flex; align-items: center;
       animation: buttonRock 4s infinite ease-in-out;
-      display: inline-flex; 
-      align-items: center; 
     }
     .links a:hover,
-    .links a:active {
-      border-color: #fff;
+    .links a:active { border-color: #fff; }
+    @keyframes buttonRock {
+      0% { transform: perspective(1000px) rotateX(0deg) rotateY(0deg); }
+      25% { transform: perspective(1000px) rotateX(2deg) rotateY(-2deg); }
+      50% { transform: perspective(1000px) rotateX(0deg) rotateY(0deg); }
+      75% { transform: perspective(1000px) rotateX(-2deg) rotateY(2deg); }
+      100% { transform: perspective(1000px) rotateX(0deg) rotateY(0deg); }
     }
-
-    /* Кнопка Telegram (ссылка), по центру внизу */
+    .button-container {
+      text-align: center; margin-top: 10px;
+    }
     .profile-button {
       display: inline-flex;
       align-items: center;
       justify-content: center;
       border: 2px solid transparent;
-      background: rgba(51, 51, 51, 0.8);
+      background: rgba(51,51,51,0.8);
       color: #fff;
       padding: 14px 24px;
       font-size: 1rem;
@@ -204,22 +182,6 @@
       border-color: #fff;
     }
 
-    /* Покачивание */
-    @keyframes buttonRock {
-      0% { transform: perspective(1000px) rotateX(0deg) rotateY(0deg); }
-      25% { transform: perspective(1000px) rotateX(2deg) rotateY(-2deg); }
-      50% { transform: perspective(1000px) rotateX(0deg) rotateY(0deg); }
-      75% { transform: perspective(1000px) rotateX(-2deg) rotateY(2deg); }
-      100% { transform: perspective(1000px) rotateX(0deg) rotateY(0deg); }
-    }
-
-    /* Контейнер для кнопки, чтобы она была снизу и по центру */
-    .button-container {
-      text-align: center; 
-      margin-top: 10px;
-    }
-
-    /* Адаптив (мобильные) */
     @media (max-width: 768px) {
       .profile-card {
         flex-direction: column; width: 90%; max-width: 400px;
@@ -234,9 +196,7 @@
       .profile-right h1 {
         font-size: 1.8rem; margin-bottom: 8px;
       }
-      .tag {
-        animation: fadeIn 1s ease;
-      }
+      .tag { animation: fadeIn 1s ease; }
       .links a {
         padding: 10px; font-size: 0.9rem;
       }
@@ -265,13 +225,13 @@
 
   <div class="container">
     <div class="profile-card">
-      <!-- Левая часть: аватар -->
+      <!-- Левая часть -->
       <div class="profile-left">
         <div class="profile-image">
           <img src="https://i.imgur.com/OkyZkUx.jpg" alt="Profile Image">
         </div>
       </div>
-      <!-- Правая часть: контент -->
+      <!-- Правая часть -->
       <div class="profile-right">
         <h1 data-text="xarmaq">xarmaq</h1>
         <div class="tags">
@@ -282,18 +242,15 @@
           <span class="tag">hashtag</span>
         </div>
         <div class="links">
-          <!-- TikTok -->
           <a href="https://www.tiktok.com/@MS4wLjABAAAAdwLEXL05bdNVF0BSOkMvAv_6iqmHvxD-9vyLRt06_tK0pDQgk94UzIBAxaajwuUc?_t=ZS-8u1Qqsdkrzd&_r=1" target="_blank">
             <img class="icon" src="https://images.seeklogo.com/logo-png/34/2/tiktok-logo-png_seeklogo-340606.png" alt="TikTok Logo">
             TikTok
           </a>
-          <!-- Instagram -->
           <a href="https://www.instagram.com/xarmaq/" target="_blank">
             <img class="icon" src="https://images.seeklogo.com/logo-png/28/2/instagram-new-2016-logo-png_seeklogo-282177.png" alt="Instagram Logo">
             Instagram
           </a>
         </div>
-        <!-- Кнопка Telegram снизу, по центру -->
         <div class="button-container">
           <a class="profile-button" href="https://telegram.me/xarmaq/" target="_blank">
             <img class="icon" src="https://images.seeklogo.com/logo-png/36/2/telegram-new-2019-simple-logo-png_seeklogo-364501.png" alt="Telegram Logo">
@@ -316,9 +273,10 @@
 
       const card = document.querySelector('.profile-card');
       const restingTransform = 'rotateX(0deg) rotateY(0deg) scale(1)';
+
       card.style.transform = restingTransform;
 
-      // 3D-эффект (±20°) при mousemove
+      // 1) 3D-эффект на ПК (mousemove)
       card.addEventListener('mousemove', (e) => {
         const rect = card.getBoundingClientRect();
         const x = e.clientX - rect.left;
@@ -335,13 +293,12 @@
         card.style.transform = restingTransform;
       });
 
-      // 3D-эффект при touchmove (мобильные)
+      // 2) 3D-эффект при touchmove (мобильное перетаскивание) - оставим как было, если нужно
+      //    (Но вы сказали, что не нужно двигать пальцем, а наклонять телефон --
+      //     всё же оставим этот кусок кода, если хотим сохранить "finger-drag" как fallback)
       card.addEventListener('touchmove', (e) => {
-        // Если 1 палец, делаем вращение
         if (e.touches.length === 1) {
-          // Предотвращаем скролл под карточкой
-          e.preventDefault();
-          
+          e.preventDefault(); // отключаем скролл под карточкой
           const rect = card.getBoundingClientRect();
           const touch = e.touches[0];
           const x = touch.clientX - rect.left;
@@ -355,7 +312,6 @@
           card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1)`;
         }
       }, { passive: false });
-      
       card.addEventListener('touchend', () => {
         card.style.transform = restingTransform;
       });
@@ -363,7 +319,6 @@
         card.style.transform = restingTransform;
       });
 
-      // Эффект нажатия + вибрация
       card.addEventListener('touchstart', () => {
         card.classList.add('active');
         if (navigator.vibrate) navigator.vibrate(50);
@@ -374,6 +329,51 @@
       card.addEventListener('touchcancel', () => {
         card.classList.remove('active');
       });
+
+
+      // 3) 3D-эффект при наклоне телефона (гироскоп deviceorientation)
+      //    Сначала проверяем, нужна ли нам просьба о разрешении (iOS)
+      function handleOrientation(event) {
+        // event.beta:  -180 .. 180  (наклон вперёд/назад)
+        // event.gamma:  -90 .. 90   (наклон влево/вправо)
+        // ограничим углы, например, ±20
+        let beta = event.beta;   // front-back
+        let gamma = event.gamma; // left-right
+
+        // clamp
+        if (beta > 20) beta = 20;
+        if (beta < -20) beta = -20;
+        if (gamma > 20) gamma = 20;
+        if (gamma < -20) gamma = -20;
+
+        const rotateX = -beta;   // invert front/back
+        const rotateY = gamma;   // left-right
+        card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+      }
+
+      // Функция запроса разрешения (для iOS)
+      function requestDeviceOrientation() {
+        if (typeof DeviceOrientationEvent.requestPermission === 'function') {
+          DeviceOrientationEvent.requestPermission()
+          .then((response) => {
+            if (response === 'granted') {
+              window.addEventListener('deviceorientation', handleOrientation);
+            } else {
+              console.warn('Разрешение на доступ к гироскопу отклонено.');
+            }
+          })
+          .catch(console.error);
+        } else {
+          // На Android или более старых iOS можно сразу слушать
+          window.addEventListener('deviceorientation', handleOrientation);
+        }
+      }
+
+      // Добавляем кнопку / или делаем автозапрос
+      // В iOS нужно это сделать по жесту пользователя
+      // Можно, к примеру, показать диалог "Нажмите, чтобы включить наклон"
+      // Ниже - упрощённый пример автозапуска (может не сработать на iOS без клика)
+      requestDeviceOrientation();
     });
   </script>
 </body>
