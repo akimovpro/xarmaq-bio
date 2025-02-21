@@ -379,7 +379,7 @@
       // 2) 3D-эффект при touchmove (мобильное перетаскивание) - fallback
       card.addEventListener('touchmove', (e) => {
         if (e.touches.length === 1) {
-          e.preventDefault(); // отключаем скролл под карточкой
+          e.preventDefault();
           const rect = card.getBoundingClientRect();
           const touch = e.touches[0];
           const x = touch.clientX - rect.left;
@@ -412,8 +412,8 @@
 
       // 3) 3D-эффект при наклоне телефона (гироскоп deviceorientation)
       function handleOrientation(event) {
-        let beta = event.beta;   // front/back
-        let gamma = event.gamma; // left-right
+        let beta = event.beta;
+        let gamma = event.gamma;
         if (beta > 20) beta = 20;
         if (beta < -20) beta = -20;
         if (gamma > 20) gamma = 20;
@@ -422,7 +422,6 @@
         const rotateY = gamma;
         card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
       }
-      // Функция запроса разрешения (для iOS)
       function requestDeviceOrientation() {
         if (typeof DeviceOrientationEvent.requestPermission === 'function') {
           DeviceOrientationEvent.requestPermission()
@@ -438,11 +437,10 @@
           window.addEventListener('deviceorientation', handleOrientation);
         }
       }
-      // Автозапрос (на iOS может потребоваться жест)
       requestDeviceOrientation();
 
-      // Счетчик просмотров через countapi.xyz
-      fetch('https://api.countapi.xyz/hit/xarmaq.com/visits')
+      // Обновлённый запрос счетчика просмотров с добавлением случайного параметра для обхода кеширования
+      fetch('https://api.countapi.xyz/hit/xarmaq.com/visits?rand=' + Math.random())
         .then(res => res.json())
         .then(data => {
           document.getElementById('viewCount').innerText = data.value;
