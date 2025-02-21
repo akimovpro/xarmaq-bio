@@ -3,12 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Карточка с гироскопом и счетчиком просмотров</title>
+  <title>Карточка с гироскопом</title>
   <!-- Подключение шрифта -->
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
   <style>
     /* --- ВСЁ, КАК БЫЛО --- */
+
     * {
       margin: 0;
       padding: 0;
@@ -41,6 +42,7 @@
     @keyframes spin {
       to { transform: rotate(360deg); }
     }
+
     .storm {
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
       z-index: -2; background: url('https://source.unsplash.com/1920x1080/?thunderstorm') center/cover no-repeat;
@@ -50,6 +52,7 @@
       0%, 90%, 100% { filter: brightness(0.5); }
       93%, 95% { filter: brightness(2.5); }
     }
+
     .container {
       position: relative;
       display: flex;
@@ -78,19 +81,6 @@
     .profile-card.active {
       transform: rotateX(0deg) rotateY(0deg) scale(0.95);
     }
-    /* Стили для счетчика просмотров */
-    .view-counter {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      background: rgba(34,34,34,0.8);
-      padding: 5px 12px;
-      border-radius: 12px;
-      font-size: 0.9rem;
-      color: #fff;
-      animation: tagGlow 2s infinite ease-in-out;
-      z-index: 1;
-    }
     .profile-left {
       margin-right: 30px;
     }
@@ -112,7 +102,6 @@
     }
     .profile-right {
       flex: 1;
-      position: relative;
     }
     .profile-right h1 {
       position: relative;
@@ -250,6 +239,7 @@
     .profile-button:active {
       border-color: #fff;
     }
+
     @media (max-width: 768px) {
       .profile-card {
         flex-direction: column;
@@ -303,12 +293,12 @@
   <div id="loader">
     <div class="spinner"></div>
   </div>
+
   <!-- Фон со штормом -->
   <div class="storm"></div>
+
   <div class="container">
     <div class="profile-card">
-      <!-- Счетчик просмотров -->
-      <div class="view-counter">Просмотров: <span id="viewCount">0</span></div>
       <!-- Левая часть -->
       <div class="profile-left">
         <div class="profile-image">
@@ -345,6 +335,7 @@
       </div>
     </div>
   </div>
+
   <!-- Скрипт -->
   <script>
     document.addEventListener('DOMContentLoaded', () => {
@@ -357,6 +348,7 @@
 
       const card = document.querySelector('.profile-card');
       const restingTransform = 'rotateX(0deg) rotateY(0deg) scale(1)';
+
       card.style.transform = restingTransform;
 
       // 1) 3D-эффект на ПК (mousemove)
@@ -370,7 +362,7 @@
         const deltaY = y - centerY;
         const rotateX = (deltaY / centerY) * -20;
         const rotateY = (deltaX / centerX) * 20;
-        card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1)`;
+        card.style.transform = rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1);
       });
       card.addEventListener('mouseleave', () => {
         card.style.transform = restingTransform;
@@ -379,7 +371,7 @@
       // 2) 3D-эффект при touchmove (мобильное перетаскивание) - fallback
       card.addEventListener('touchmove', (e) => {
         if (e.touches.length === 1) {
-          e.preventDefault();
+          e.preventDefault(); // отключаем скролл под карточкой
           const rect = card.getBoundingClientRect();
           const touch = e.touches[0];
           const x = touch.clientX - rect.left;
@@ -390,7 +382,7 @@
           const deltaY = y - centerY;
           const rotateX = (deltaY / centerY) * -20;
           const rotateY = (deltaX / centerX) * 20;
-          card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1)`;
+          card.style.transform = rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1);
         }
       }, { passive: false });
       card.addEventListener('touchend', () => {
@@ -399,6 +391,7 @@
       card.addEventListener('touchcancel', () => {
         card.style.transform = restingTransform;
       });
+
       card.addEventListener('touchstart', () => {
         card.classList.add('active');
         if (navigator.vibrate) navigator.vibrate(50);
@@ -412,16 +405,20 @@
 
       // 3) 3D-эффект при наклоне телефона (гироскоп deviceorientation)
       function handleOrientation(event) {
-        let beta = event.beta;
-        let gamma = event.gamma;
+        let beta = event.beta;   // front/back
+        let gamma = event.gamma; // left-right
+
         if (beta > 20) beta = 20;
         if (beta < -20) beta = -20;
         if (gamma > 20) gamma = 20;
         if (gamma < -20) gamma = -20;
+
         const rotateX = -beta;
         const rotateY = gamma;
-        card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+        card.style.transform = rotateX(${rotateX}deg) rotateY(${rotateY}deg);
       }
+
+      // Функция запроса разрешения (для iOS)
       function requestDeviceOrientation() {
         if (typeof DeviceOrientationEvent.requestPermission === 'function') {
           DeviceOrientationEvent.requestPermission()
@@ -434,18 +431,13 @@
             })
             .catch(console.error);
         } else {
+          // На Android или более старых iOS можно сразу слушать
           window.addEventListener('deviceorientation', handleOrientation);
         }
       }
-      requestDeviceOrientation();
 
-      // Обновлённый запрос счетчика просмотров с добавлением случайного параметра для обхода кеширования
-      fetch('https://api.countapi.xyz/hit/xarmaq.com/visits?rand=' + Math.random())
-        .then(res => res.json())
-        .then(data => {
-          document.getElementById('viewCount').innerText = data.value;
-        })
-        .catch(console.error);
+      // Автозапрос (на iOS может потребоваться жест)
+      requestDeviceOrientation();
     });
   </script>
 </body>
