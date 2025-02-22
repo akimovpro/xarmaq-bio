@@ -8,8 +8,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
   <style>
-    /* --- ВСЁ, КАК БЫЛО --- */
-
+    /* Общие стили */
     * {
       margin: 0;
       padding: 0;
@@ -26,33 +25,95 @@
       margin-right: 8px;
       vertical-align: middle;
     }
+    
+    /* Новый Loader с кубической анимацией (From Uiverse.io by jeremyssocial) */
     #loader {
       position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background: #000; display: flex; align-items: center; justify-content: center;
-      z-index: 1000; transition: opacity 0.5s ease;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      transition: opacity 0.5s ease;
     }
-    .spinner {
-      width: 50px; height: 50px;
-      border: 5px solid rgba(255,255,255,0.2);
-      border-top: 5px solid #fff;
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
+    .loader-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 10em;
+      perspective: 800px;
     }
-    @keyframes spin {
-      to { transform: rotate(360deg); }
+    .loader-cube {
+      position: relative;
+      width: 5em;
+      height: 5em;
+      transform-style: preserve-3d;
+      animation: rotateCube 2s infinite linear;
     }
-
+    .loader-side {
+      position: absolute;
+      width: 5em;
+      height: 5em;
+      background: #333;
+      border: 0.1em solid #fff;
+    }
+    .front {
+      transform: translateZ(2.5em);
+    }
+    .back {
+      transform: rotateY(180deg) translateZ(2.5em);
+    }
+    .right {
+      transform: rotateY(90deg) translateZ(2.5em);
+    }
+    .left {
+      transform: rotateY(-90deg) translateZ(2.5em);
+    }
+    .top {
+      transform: rotateX(90deg) translateZ(2.5em);
+    }
+    .bottom {
+      transform: rotateX(-90deg) translateZ(2.5em);
+    }
+    @keyframes rotateCube {
+      from {
+        transform: rotateX(0deg) rotateY(0deg);
+      }
+      to {
+        transform: rotateX(360deg) rotateY(360deg);
+      }
+    }
+    .loader-side:hover {
+      background: #555;
+    }
+    .loader-side:focus {
+      border: 0.1em solid #999;
+    }
+    .loader-side:active {
+      opacity: 0.8;
+    }
+    
+    /* Штормовой фон */
     .storm {
-      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      z-index: -2; background: url('https://source.unsplash.com/1920x1080/?thunderstorm') center/cover no-repeat;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -2;
+      background: url('https://source.unsplash.com/1920x1080/?thunderstorm') center/cover no-repeat;
       animation: lightning 10s infinite;
     }
     @keyframes lightning {
       0%, 90%, 100% { filter: brightness(0.5); }
       93%, 95% { filter: brightness(2.5); }
     }
-
+    
+    /* Контейнер и карточка профиля */
     .container {
       position: relative;
       display: flex;
@@ -239,7 +300,6 @@
     .profile-button:active {
       border-color: #fff;
     }
-
     @media (max-width: 768px) {
       .profile-card {
         flex-direction: column;
@@ -289,9 +349,16 @@
   </style>
 </head>
 <body>
-  <!-- Loader -->
-  <div id="loader">
-    <div class="spinner"></div>
+  <!-- Loader с кубической анимацией -->
+  <div id="loader" class="loader-container">
+    <div class="loader-cube">
+      <div class="loader-side front"></div>
+      <div class="loader-side back"></div>
+      <div class="loader-side left"></div>
+      <div class="loader-side right"></div>
+      <div class="loader-side top"></div>
+      <div class="loader-side bottom"></div>
+    </div>
   </div>
 
   <!-- Фон со штормом -->
@@ -316,7 +383,6 @@
           <span class="tag">hashtag</span>
         </div>
         <div class="links">
-          <!-- Кнопка Discord с новой иконкой (SVG без фона) -->
           <a href="https://discord.com/users/812620606406393886" target="_blank">
             <img class="icon" src="https://www.svgrepo.com/show/353655/discord-icon.svg" alt="Discord Logo">
             Discord
@@ -336,22 +402,22 @@
     </div>
   </div>
 
-  <!-- Скрипт -->
+  <!-- Скрипт для скрытия loader и активации 3D-эффектов карточки -->
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      // Скрываем loader через 1 сек
+      // Скрываем loader через 1 сек после загрузки
       const loader = document.getElementById('loader');
       setTimeout(() => {
         loader.style.opacity = '0';
-        setTimeout(() => loader.style.display = 'none', 500);
+        setTimeout(() => { loader.style.display = 'none'; }, 500);
       }, 1000);
 
       const card = document.querySelector('.profile-card');
+      if (!card) return;
       const restingTransform = 'rotateX(0deg) rotateY(0deg) scale(1)';
-
       card.style.transform = restingTransform;
 
-      // 1) 3D-эффект на ПК (mousemove)
+      // 3D-эффект для ПК (mousemove)
       card.addEventListener('mousemove', (e) => {
         const rect = card.getBoundingClientRect();
         const x = e.clientX - rect.left;
@@ -362,16 +428,16 @@
         const deltaY = y - centerY;
         const rotateX = (deltaY / centerY) * -20;
         const rotateY = (deltaX / centerX) * 20;
-        card.style.transform = rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1);
+        card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1)`;
       });
       card.addEventListener('mouseleave', () => {
         card.style.transform = restingTransform;
       });
 
-      // 2) 3D-эффект при touchmove (мобильное перетаскивание) - fallback
+      // 3D-эффект для мобильных (touchmove fallback)
       card.addEventListener('touchmove', (e) => {
         if (e.touches.length === 1) {
-          e.preventDefault(); // отключаем скролл под карточкой
+          e.preventDefault();
           const rect = card.getBoundingClientRect();
           const touch = e.touches[0];
           const x = touch.clientX - rect.left;
@@ -382,7 +448,7 @@
           const deltaY = y - centerY;
           const rotateX = (deltaY / centerY) * -20;
           const rotateY = (deltaX / centerX) * 20;
-          card.style.transform = rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1);
+          card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1)`;
         }
       }, { passive: false });
       card.addEventListener('touchend', () => {
@@ -403,22 +469,18 @@
         card.classList.remove('active');
       });
 
-      // 3) 3D-эффект при наклоне телефона (гироскоп deviceorientation)
+      // 3D-эффект для наклона телефона (гироскоп)
       function handleOrientation(event) {
-        let beta = event.beta;   // front/back
-        let gamma = event.gamma; // left-right
-
+        let beta = event.beta;
+        let gamma = event.gamma;
         if (beta > 20) beta = 20;
         if (beta < -20) beta = -20;
         if (gamma > 20) gamma = 20;
         if (gamma < -20) gamma = -20;
-
         const rotateX = -beta;
         const rotateY = gamma;
-        card.style.transform = rotateX(${rotateX}deg) rotateY(${rotateY}deg);
+        card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
       }
-
-      // Функция запроса разрешения (для iOS)
       function requestDeviceOrientation() {
         if (typeof DeviceOrientationEvent.requestPermission === 'function') {
           DeviceOrientationEvent.requestPermission()
@@ -426,17 +488,14 @@
               if (response === 'granted') {
                 window.addEventListener('deviceorientation', handleOrientation);
               } else {
-                console.warn('Разрешение на доступ к гироскопу отклонено.');
+                console.warn('Гироскоп не разрешён.');
               }
             })
             .catch(console.error);
         } else {
-          // На Android или более старых iOS можно сразу слушать
           window.addEventListener('deviceorientation', handleOrientation);
         }
       }
-
-      // Автозапрос (на iOS может потребоваться жест)
       requestDeviceOrientation();
     });
   </script>
