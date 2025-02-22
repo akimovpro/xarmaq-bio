@@ -26,7 +26,7 @@
       vertical-align: middle;
     }
     
-    /* Новый Loader с кубической анимацией (From Uiverse.io by jeremyssocial) */
+    /* Loader с кубической анимацией (из Uiverse.io by jeremyssocial) */
     #loader {
       position: fixed;
       top: 0;
@@ -97,23 +97,7 @@
       opacity: 0.8;
     }
     
-    /* Штормовой фон */
-    .storm {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -2;
-      background: url('https://source.unsplash.com/1920x1080/?thunderstorm') center/cover no-repeat;
-      animation: lightning 10s infinite;
-    }
-    @keyframes lightning {
-      0%, 90%, 100% { filter: brightness(0.5); }
-      93%, 95% { filter: brightness(2.5); }
-    }
-    
-    /* Контейнер и карточка профиля */
+    /* Контейнер с новым фоном за карточкой */
     .container {
       position: relative;
       display: flex;
@@ -122,10 +106,14 @@
       min-height: 100vh;
       padding: 20px;
       perspective: 1000px;
+      background: url('https://i.imgur.com/3QZ26hp.jpg') no-repeat center center;
+      background-size: cover;
     }
+    
+    /* Карточка профиля – полупрозрачная */
     .profile-card {
       position: relative;
-      background: rgba(17, 17, 17, 0.5);
+      background: rgba(17, 17, 17, 0.3); /* уменьшена непрозрачность для большей прозрачности */
       border: 1px solid rgba(255,255,255,0.2);
       border-radius: 15px;
       backdrop-filter: blur(5px);
@@ -142,6 +130,7 @@
     .profile-card.active {
       transform: rotateX(0deg) rotateY(0deg) scale(0.95);
     }
+    
     .profile-left {
       margin-right: 30px;
     }
@@ -195,32 +184,14 @@
       opacity: 1;
     }
     @keyframes glitchTop {
-      0% {
-        clip: rect(0,9999px,0,0);
-        transform: translate(0);
-      }
-      50% {
-        clip: rect(0,9999px,30px,0);
-        transform: translate(-3px,-3px);
-      }
-      100% {
-        clip: rect(0,9999px,0,0);
-        transform: translate(0);
-      }
+      0% { clip: rect(0,9999px,0,0); transform: translate(0); }
+      50% { clip: rect(0,9999px,30px,0); transform: translate(-3px,-3px); }
+      100% { clip: rect(0,9999px,0,0); transform: translate(0); }
     }
     @keyframes glitchBottom {
-      0% {
-        clip: rect(0,9999px,0,0);
-        transform: translate(0);
-      }
-      50% {
-        clip: rect(30px,9999px,60px,0);
-        transform: translate(3px,3px);
-      }
-      100% {
-        clip: rect(0,9999px,0,0);
-        transform: translate(0);
-      }
+      0% { clip: rect(0,9999px,0,0); transform: translate(0); }
+      50% { clip: rect(30px,9999px,60px,0); transform: translate(3px,3px); }
+      100% { clip: rect(0,9999px,0,0); transform: translate(0); }
     }
     .tags {
       display: flex;
@@ -238,12 +209,8 @@
       animation: tagGlow 2s infinite ease-in-out;
     }
     @keyframes tagGlow {
-      0%,100% {
-        box-shadow: 0 0 5px rgba(255,0,0,0.2);
-      }
-      50% {
-        box-shadow: 0 0 15px rgba(255,0,0,0.8);
-      }
+      0%,100% { box-shadow: 0 0 5px rgba(255,0,0,0.2); }
+      50% { box-shadow: 0 0 15px rgba(255,0,0,0.8); }
     }
     .links {
       display: flex;
@@ -333,14 +300,8 @@
       }
     }
     @keyframes slideInUp {
-      from {
-        transform: translateY(50px);
-        opacity: 0;
-      }
-      to {
-        transform: translateY(0);
-        opacity: 1;
-      }
+      from { transform: translateY(50px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
     }
     @keyframes fadeIn {
       from { opacity: 0; }
@@ -361,18 +322,13 @@
     </div>
   </div>
 
-  <!-- Фон со штормом -->
-  <div class="storm"></div>
-
   <div class="container">
     <div class="profile-card">
-      <!-- Левая часть -->
       <div class="profile-left">
         <div class="profile-image">
           <img src="https://i.imgur.com/OkyZkUx.jpg" alt="Profile Image">
         </div>
       </div>
-      <!-- Правая часть -->
       <div class="profile-right">
         <h1 data-text="xarmaq">xarmaq</h1>
         <div class="tags">
@@ -402,7 +358,6 @@
     </div>
   </div>
 
-  <!-- Скрипт для скрытия loader и активации 3D-эффектов карточки -->
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       // Скрываем loader через 1 сек после загрузки
