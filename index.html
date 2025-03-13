@@ -4,10 +4,18 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Карточка с гироскопом + Интенсивный шум (Исправлено)</title>
-  <!-- Подключение шрифта -->
+  <!-- Подключение шрифта Montserrat для остального текста -->
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
   <style>
+    /* Подключение шрифта SF Handwriting Black из локального файла */
+    @font-face {
+      font-family: 'SF Handwriting Black';
+      src: url('sf-handwriting-black.ttf') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+    }
+
     /* Общие стили */
     * {
       margin: 0;
@@ -74,7 +82,7 @@
     .loader-side:focus { border: 0.1em solid #999; }
     .loader-side:active { opacity: 0.8; }
 
-    /* Фон с красно-чёрными узорами */
+    /* Чёрный фон */
     .container {
       position: relative;
       display: flex;
@@ -83,13 +91,13 @@
       min-height: 100vh;
       padding: 20px;
       perspective: 1000px;
-      background: url('https://i.imgur.com/3QZ26hp.jpg') center/cover no-repeat;
+      background: #000;
     }
 
-    /* Полупрозрачная карточка */
+    /* Полупрозрачная карточка с белым свечением */
     .profile-card {
       position: relative;
-      background: rgba(17,17,17,0.3); /* затемнённая прозрачность */
+      background: rgba(17,17,17,0.3);
       border: 1px solid rgba(255,255,255,0.2);
       border-radius: 15px;
       backdrop-filter: blur(5px);
@@ -101,19 +109,14 @@
       max-width: 90%;
       transition: transform 0.2s ease-out;
       transform: rotateX(0deg) rotateY(0deg) scale(1);
-      box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
-      overflow: hidden; /* важно для псевдоэлемента шума */
+      box-shadow: 0 0 20px rgba(255,255,255,0.5);
+      overflow: hidden;
     }
     .profile-card.active {
       transform: rotateX(0deg) rotateY(0deg) scale(0.95);
     }
 
-    /*
-      Псевдоэлемент с шумом:
-      - Используем радиальные градиенты
-      - Уменьшаем непрозрачность и меняем blend-mode на soft-light,
-        чтобы фон не «выбеливался» и красно-чёрные узоры были видны.
-    */
+    /* Псевдоэлемент с шумом */
     .profile-card::before {
       content: "";
       position: absolute;
@@ -121,14 +124,13 @@
       pointer-events: none;
       border-radius: inherit;
       z-index: 1;
-
       background-image:
         radial-gradient(circle, rgba(255,255,255,0.2) 1px, transparent 1px),
         radial-gradient(circle, rgba(255,255,255,0.2) 1px, transparent 1px);
       background-size: 3px 3px;
       background-position: 0 0, 1.5px 1.5px;
       mix-blend-mode: soft-light;
-      opacity: 0.2; /* при необходимости увеличить/уменьшить */
+      opacity: 0.2;
     }
 
     .profile-left {
@@ -162,9 +164,11 @@
       margin-bottom: 10px;
       color: #fff;
       transition: color 0.5s ease;
+      /* Применяем шрифт SF Handwriting Black только для надписи xarmaq */
+      font-family: 'SF Handwriting Black', 'Montserrat', sans-serif;
     }
     .profile-right h1:hover {
-      color: #ff4444;
+      color: #fff;
     }
     .profile-right h1::before,
     .profile-right h1::after {
@@ -173,7 +177,7 @@
       top: 0; left: 0;
       width: 100%;
       opacity: 0;
-      color: #ff4444;
+      color: #fff;
     }
     .profile-right h1:hover::before {
       animation: glitchTop 0.5s linear infinite;
@@ -230,10 +234,10 @@
     }
     @keyframes tagGlow {
       0%,100% {
-        box-shadow: 0 0 5px rgba(255,0,0,0.2);
+        box-shadow: 0 0 5px rgba(255,255,255,0.2);
       }
       50% {
-        box-shadow: 0 0 15px rgba(255,0,0,0.8);
+        box-shadow: 0 0 15px rgba(255,255,255,0.8);
       }
     }
 
@@ -359,7 +363,8 @@
     <div class="profile-card">
       <div class="profile-left">
         <div class="profile-image">
-          <img src="https://i.imgur.com/OkyZkUx.jpg" alt="Profile Image">
+          <!-- Ставим прямую ссылку на GIF (обратите внимание на .gif в конце) -->
+          <img src="https://i.imgur.com/nFDw9PB.gif" alt="Profile Image">
         </div>
       </div>
       <div class="profile-right">
