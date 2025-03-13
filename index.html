@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Карточка с гироскопом + Интенсивный шум (Адаптивно, красиво и с быстрым курсорным шариком)</title>
+  <title>Карточка с гироскопом + Интенсивный шум (С иконкой рядом)</title>
   <!-- Подключение шрифта Montserrat для остального текста -->
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
@@ -15,7 +15,7 @@
       font-weight: normal;
       font-style: normal;
     }
-    
+
     /* Общие стили и плавные переходы */
     * {
       margin: 0;
@@ -34,14 +34,19 @@
       margin-right: 8px;
       vertical-align: middle;
     }
-    
+    /* Уменьшенный размер иконки в заголовке, а также сокращён отступ */
+    .name-icon {
+      height: 0.85em; /* немного меньше, чем 1em */
+      width: auto;
+      vertical-align: middle;
+      margin-left: 2px; /* отступ чуть меньше */
+    }
+
     /* Loader (куб) */
     #loader {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
       background: #000;
       display: flex;
       justify-content: center;
@@ -65,8 +70,7 @@
     }
     .loader-side {
       position: absolute;
-      width: 5em;
-      height: 5em;
+      width: 5em; height: 5em;
       background: #333;
       border: 0.1em solid #fff;
     }
@@ -76,7 +80,7 @@
     .left { transform: rotateY(-90deg) translateZ(2.5em); }
     .top { transform: rotateX(90deg) translateZ(2.5em); }
     .bottom { transform: rotateX(-90deg) translateZ(2.5em); }
-    
+
     @keyframes rotateCube {
       0% { transform: rotateX(0deg) rotateY(0deg); }
       100% { transform: rotateX(360deg) rotateY(360deg); }
@@ -84,7 +88,7 @@
     .loader-side:hover { background: #555; }
     .loader-side:focus { border: 0.1em solid #999; }
     .loader-side:active { opacity: 0.8; }
-    
+
     /* Контейнер карточки */
     .container {
       position: relative;
@@ -96,7 +100,7 @@
       perspective: 1000px;
       background: linear-gradient(135deg, #000, #1a1a1a);
     }
-    
+
     /* Карточка с эффектом свечения */
     .profile-card {
       position: relative;
@@ -133,7 +137,7 @@
       mix-blend-mode: soft-light;
       opacity: 0.2;
     }
-    
+
     /* Аватарка (GIF) наверху */
     .profile-image {
       width: 150px;
@@ -152,8 +156,8 @@
     .profile-image:hover {
       transform: rotate(360deg);
     }
-    
-    /* Ник */
+
+    /* Ник с иконкой справа */
     h1 {
       position: relative;
       display: inline-block;
@@ -195,7 +199,7 @@
       50% { clip: rect(30px,9999px,60px,0); transform: translate(3px,3px); }
       100% { clip: rect(0,9999px,0,0); transform: translate(0); }
     }
-    
+
     /* Ряд кнопок (Discord и Instagram) */
     .links-row {
       width: 100%;
@@ -232,7 +236,7 @@
       75% { transform: perspective(1000px) rotateX(-2deg) rotateY(2deg); }
       100% { transform: perspective(1000px) rotateX(0deg) rotateY(0deg); }
     }
-    
+
     /* Кнопка Telegram – стиль как у Discord */
     .button-container {
       text-align: center;
@@ -259,7 +263,7 @@
     .profile-button:active {
       border-color: #fff;
     }
-    
+
     /* Адаптив для мобильных устройств */
     @media (max-width: 768px) {
       .profile-card {
@@ -307,17 +311,20 @@
       <div class="loader-side bottom"></div>
     </div>
   </div>
-  
+
   <div class="container">
     <div class="profile-card">
       <!-- Аватарка (GIF) наверху -->
       <div class="profile-image">
         <img src="https://i.imgur.com/nFDw9PB.gif" alt="Profile Image">
       </div>
-  
-      <!-- Ник -->
-      <h1 data-text="xarmaq">xarmaq</h1>
-  
+
+      <!-- Ник с иконкой справа (уменьшенной и ближе к тексту) -->
+      <h1 data-text="xarmaq">
+        xarmaq
+        <img class="name-icon" src="https://i.imgur.com/XCu35tZ.png" alt="Icon">
+      </h1>
+
       <!-- Кнопки Discord и Instagram (почти вплотную) -->
       <div class="links-row">
         <a class="link" href="https://discord.com/users/812620606406393886" target="_blank">
@@ -329,7 +336,7 @@
           Instagram
         </a>
       </div>
-  
+
       <!-- Кнопка Telegram внизу карточки -->
       <div class="button-container">
         <a class="profile-button" href="https://telegram.me/xarmaq/" target="_blank">
@@ -339,7 +346,7 @@
       </div>
     </div>
   </div>
-  
+
   <!-- Скрипт для движения белого шарика за курсором (только для ПК) -->
   <script>
     if (!("ontouchstart" in window)) {
@@ -364,17 +371,17 @@
         }
       `;
       document.head.appendChild(style);
-  
+
       let posX = window.innerWidth / 2;
       let posY = window.innerHeight / 2;
       let targetX = posX;
       let targetY = posY;
-  
+
       document.addEventListener("mousemove", (e) => {
         targetX = e.clientX;
         targetY = e.clientY;
       });
-  
+
       function animateCursor() {
         posX += (targetX - posX) * 0.8;
         posY += (targetY - posY) * 0.8;
@@ -384,7 +391,7 @@
       animateCursor();
     }
   </script>
-  
+
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       // Скрываем loader через 1 секунду
@@ -393,12 +400,12 @@
         loader.style.opacity = '0';
         setTimeout(() => loader.style.display = 'none', 500);
       }, 1000);
-  
+
       const card = document.querySelector('.profile-card');
       if (!card) return;
       const restingTransform = 'rotateX(0deg) rotateY(0deg) scale(1)';
       card.style.transform = restingTransform;
-  
+
       // 3D-эффект для ПК (mousemove)
       card.addEventListener('mousemove', (e) => {
         const rect = card.getBoundingClientRect();
@@ -415,7 +422,7 @@
       card.addEventListener('mouseleave', () => {
         card.style.transform = restingTransform;
       });
-  
+
       // 3D-эффект для мобильных (touchmove)
       card.addEventListener('touchmove', (e) => {
         if (e.touches.length === 1) {
@@ -439,7 +446,7 @@
       card.addEventListener('touchcancel', () => {
         card.style.transform = restingTransform;
       });
-  
+
       card.addEventListener('touchstart', () => {
         card.classList.add('active');
         if (navigator.vibrate) navigator.vibrate(50);
@@ -450,7 +457,7 @@
       card.addEventListener('touchcancel', () => {
         card.classList.remove('active');
       });
-  
+
       // 3D-эффект при наклоне телефона (гироскоп)
       function handleOrientation(event) {
         let beta = event.beta;
@@ -463,7 +470,7 @@
         const rotateY = gamma;
         card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
       }
-  
+
       function requestDeviceOrientation() {
         if (typeof DeviceOrientationEvent.requestPermission === 'function') {
           DeviceOrientationEvent.requestPermission()
@@ -479,7 +486,7 @@
           window.addEventListener('deviceorientation', handleOrientation);
         }
       }
-  
+
       requestDeviceOrientation();
     });
   </script>
