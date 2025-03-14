@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>>_<</title>
+  <title>My Card with Audio</title>
   <!-- Подключение шрифта Montserrat для остального текста -->
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
@@ -32,7 +32,7 @@
       vertical-align: middle;
     }
     .name-icon {
-      height: 0.85em;
+      height: 0.85em; 
       width: auto;
       vertical-align: middle;
       margin-left: 2px;
@@ -64,7 +64,8 @@
     }
     .loader-side {
       position: absolute;
-      width: 5em; height: 5em;
+      width: 5em; 
+      height: 5em;
       background: #333;
       border: 0.1em solid #fff;
     }
@@ -78,9 +79,6 @@
       0% { transform: rotateX(0deg) rotateY(0deg); }
       100% { transform: rotateX(360deg) rotateY(360deg); }
     }
-    .loader-side:hover { background: #555; }
-    .loader-side:focus { border: 0.1em solid #999; }
-    .loader-side:active { opacity: 0.8; }
     .container {
       position: relative;
       display: flex;
@@ -243,7 +241,6 @@
     .profile-button:active {
       border-color: #fff;
     }
-    /* Плеер */
     .player-container {
       margin-top: 30px;
       text-align: center;
@@ -255,9 +252,9 @@
       margin-bottom: 15px;
       font-size: 1.3rem;
     }
-    /* "controls" отключим, чтобы стилизовать вручную (пример) */
+    /* Прячем стандартный плеер, если хотим кастомные кнопки */
     .custom-audio {
-      display: none; /* прячем стандартный плеер */
+      display: none;
     }
     .custom-audio-controls {
       color: #fff;
@@ -332,15 +329,18 @@
 
   <div class="container">
     <div class="profile-card">
+      <!-- Аватар -->
       <div class="profile-image">
         <img src="https://i.imgur.com/nFDw9PB.gif" alt="Profile Image">
       </div>
 
+      <!-- Ник -->
       <h1 data-text="xarmaq">
         xarmaq
         <img class="name-icon" src="https://i.imgur.com/XCu35tZ.png" alt="Icon">
       </h1>
 
+      <!-- Ссылки -->
       <div class="links-row">
         <a class="link" href="https://discord.com/users/812620606406393886" target="_blank">
           <img class="icon" src="https://www.svgrepo.com/show/353655/discord-icon.svg" alt="Discord Logo">
@@ -352,6 +352,7 @@
         </a>
       </div>
 
+      <!-- Кнопка Telegram -->
       <div class="button-container">
         <a class="profile-button" href="https://telegram.me/xarmaq/" target="_blank">
           <img class="icon" src="https://i.imgur.com/Ws2zUiZ.png" alt="Telegram Logo">
@@ -362,16 +363,16 @@
       <!-- Плеер -->
       <div class="player-container">
         <h2>Now Playing</h2>
-
-        <!-- Скрытый стандартный аудиоплеер -->
+        <!-- Файл со специальными символами и пробелами.
+             Обязательно убедитесь, что он лежит в одной папке с index.html -->
         <audio
           id="myAudio"
           class="custom-audio"
-          src="your_audio_source.mp3"
+          src="Playboicarti - Molly Edit by Destxmido [Instrumental].mp3"
           loop
         ></audio>
 
-        <!-- Кастомные кнопки -->
+        <!-- Кастомные кнопки управления -->
         <div class="custom-audio-controls">
           <button class="play-button" id="playBtn">Play</button>
           <button class="pause-button" id="pauseBtn">Pause</button>
@@ -380,12 +381,13 @@
     </div>
   </div>
 
-  <!-- Скрипт для движения белого шарика за курсором (только для ПК) -->
+  <!-- Курсор-шарик (только на ПК) -->
   <script>
     if (!("ontouchstart" in window)) {
       const cursorBall = document.createElement("div");
       cursorBall.id = "cursor-ball";
       document.body.appendChild(cursorBall);
+
       const style = document.createElement("style");
       style.textContent = `
         #cursor-ball {
@@ -427,7 +429,7 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      // Пробуем скрыть loader через 1 секунду
+      // Прячем лоадер
       const loader = document.getElementById('loader');
       setTimeout(() => {
         loader.style.opacity = '0';
@@ -521,17 +523,17 @@
       }
       requestDeviceOrientation();
 
-      // ----- Логика аудио -----
+      // Аудио
       const audio = document.getElementById('myAudio');
       const playBtn = document.getElementById('playBtn');
       const pauseBtn = document.getElementById('pauseBtn');
 
-      // Пытаемся запустить трек на загрузке (часто будет блокироваться)
+      // Попытка автозапуска (может блокироваться)
       audio.play().catch(err => {
-        console.warn('Автовоспроизведение заблокировано браузером:', err);
+        console.warn('Автовоспроизведение заблокировано:', err);
       });
 
-      // Привязываем кнопки
+      // Кнопки управления
       playBtn.addEventListener('click', () => {
         audio.play().catch(err => console.error(err));
       });
