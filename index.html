@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>>_<</title>
-  <!-- Подключение шрифта Montserrat для остального текста -->
+  <!-- Подключение шрифта Montserrat -->
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
 
@@ -15,11 +15,10 @@
       font-weight: normal;
       font-style: normal;
     }
-    /* Сброс/базовые стили */
     * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+      margin: 0; 
+      padding: 0; 
+      box-sizing: border-box; 
       transition: all 0.3s ease;
     }
     body {
@@ -27,8 +26,6 @@
       background: linear-gradient(135deg, #000, #1a1a1a);
       overflow-x: hidden;
     }
-
-    /* Иконки рядом с текстом */
     .icon {
       width: 18px;
       height: 18px;
@@ -39,10 +36,44 @@
       height: 0.85em;
       width: auto;
       vertical-align: middle;
-      margin-left: 2px;
     }
 
-    /* Загрузочный куб */
+    /* Контейнер для галочки, чтобы разместить tooltip */
+    .name-icon-container {
+      position: relative;
+      display: inline-block;
+      cursor: pointer; /* чтобы был "указатель" при наведении */
+      margin-left: 4px; /* чтобы чуть отступить иконку от текста */
+    }
+
+    /* Сама подсказка (плашка) */
+    .tooltip {
+      position: absolute;
+      bottom: 100%;      /* разместить над иконкой */
+      left: 50%;
+      transform: translate(-50%, -5px);
+      background: rgba(0,0,0,0.8);
+      color: #fff;
+      padding: 4px 8px;
+      font-size: 0.8rem;
+      border-radius: 5px;
+      pointer-events: none;   /* чтобы не мешать кликам вне */
+      opacity: 0;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      white-space: nowrap;
+      z-index: 9999;
+    }
+
+    /* Наведение мыши, фокус клавиатурой или нажатие — показывают tooltip */
+    .name-icon-container:hover .tooltip,
+    .name-icon-container:focus-within .tooltip,
+    .name-icon-container:active .tooltip {
+      opacity: 1;
+      pointer-events: auto; 
+      transform: translate(-50%, -10px);
+    }
+
+    /* Loader (куб) */
     #loader {
       position: fixed;
       top: 0; left: 0;
@@ -70,7 +101,8 @@
     }
     .loader-side {
       position: absolute;
-      width: 5em; height: 5em;
+      width: 5em; 
+      height: 5em;
       background: #333;
       border: 0.1em solid #fff;
     }
@@ -80,13 +112,11 @@
     .left   { transform: rotateY(-90deg) translateZ(2.5em); }
     .top    { transform: rotateX(90deg)  translateZ(2.5em); }
     .bottom { transform: rotateX(-90deg) translateZ(2.5em); }
-
     @keyframes rotateCube {
       0%   { transform: rotateX(0deg) rotateY(0deg); }
       100% { transform: rotateX(360deg) rotateY(360deg); }
     }
 
-    /* Основной контейнер */
     .container {
       position: relative;
       display: flex;
@@ -98,7 +128,6 @@
       background: linear-gradient(135deg, #000, #1a1a1a);
     }
 
-    /* Карточка */
     .profile-card {
       position: relative;
       background: linear-gradient(135deg, rgba(17,17,17,0.5), rgba(17,17,17,0.3));
@@ -135,7 +164,6 @@
       opacity: 0.2;
     }
 
-    /* Аватар (GIF) */
     .profile-image {
       width: 150px;
       height: 150px;
@@ -154,7 +182,6 @@
       transform: rotate(360deg);
     }
 
-    /* Заголовок (ник) */
     h1 {
       position: relative;
       display: inline-block;
@@ -186,7 +213,6 @@
       animation: glitchBottom 0.5s linear infinite;
       opacity: 1;
     }
-
     @keyframes glitchTop {
       0%   { clip: rect(0,9999px,0,0); transform: translate(0); }
       50%  { clip: rect(0,9999px,30px,0); transform: translate(-3px,-3px); }
@@ -198,7 +224,6 @@
       100% { clip: rect(0,9999px,0,0); transform: translate(0); }
     }
 
-    /* Ссылки (Discord, Instagram) */
     .links-row {
       width: 100%;
       display: flex;
@@ -234,7 +259,6 @@
       100% { transform: perspective(1000px) rotateX(0deg) rotateY(0deg); }
     }
 
-    /* Кнопка Telegram */
     .button-container {
       text-align: center;
       margin-top: 5px;
@@ -259,29 +283,6 @@
     .profile-button:hover,
     .profile-button:active {
       border-color: #fff;
-    }
-
-    /* Небольшой аккуратный плеер в стиле сайта (внизу карточки) */
-    .player-container {
-      margin-top: 30px;
-      text-align: center;
-      width: 100%;
-    }
-    .player-container h2 {
-      color: #fff;
-      font-family: 'SF Handwriting Black', 'Montserrat', sans-serif;
-      margin-bottom: 15px;
-      font-size: 1.3rem;
-    }
-    .yt-laconic-frame {
-      width: 360px;     /* Уменьшенный размер */
-      height: 203px;    /* Соотношение 16:9 (360x203) */
-      border: none;
-      border-radius: 8px;
-      overflow: hidden;
-      background: #000;
-      box-shadow: 0 0 10px rgba(255,255,255,0.2);
-      max-width: 100%;
     }
 
     /* Адаптив для мобильных устройств */
@@ -312,22 +313,14 @@
         padding: 10px 20px;
         font-size: 0.9rem;
       }
-      .player-container h2 {
-        font-size: 1.1rem;
-      }
-      .yt-laconic-frame {
-        width: 100%;
-        height: auto;
-        aspect-ratio: 16 / 9;
-      }
     }
-
     @keyframes slideInUp {
       from { transform: translateY(50px); opacity: 0; }
       to   { transform: translateY(0);   opacity: 1; }
     }
   </style>
 </head>
+
 <body>
   <!-- Loader -->
   <div id="loader" class="loader-container">
@@ -343,18 +336,22 @@
 
   <div class="container">
     <div class="profile-card">
-      <!-- Аватар -->
       <div class="profile-image">
         <img src="https://i.imgur.com/nFDw9PB.gif" alt="Profile Image">
       </div>
 
-      <!-- Ник -->
+      <!-- Используем <span class="name-icon-container"> для иконки с галочкой -->
       <h1 data-text="xarmaq">
         xarmaq
-        <img class="name-icon" src="https://i.imgur.com/XCu35tZ.png" alt="Icon">
+        <!-- Вот тут располагаем нашу иконку + tooltip -->
+        <span class="name-icon-container">
+          <!-- tabindex="0" для возможности фокуса с клавиатуры -->
+          <img class="name-icon" src="https://i.imgur.com/XCu35tZ.png" alt="Icon" tabindex="0">
+          <!-- Невидимая по умолчанию подсказка -->
+          <span class="tooltip">developer</span>
+        </span>
       </h1>
 
-      <!-- Ссылки -->
       <div class="links-row">
         <a class="link" href="https://discord.com/users/812620606406393886" target="_blank">
           <img class="icon" src="https://www.svgrepo.com/show/353655/discord-icon.svg" alt="Discord Logo">
@@ -366,35 +363,16 @@
         </a>
       </div>
 
-      <!-- Кнопка Telegram -->
       <div class="button-container">
         <a class="profile-button" href="https://telegram.me/xarmaq/" target="_blank">
           <img class="icon" src="https://i.imgur.com/Ws2zUiZ.png" alt="Telegram Logo">
           Telegram
         </a>
       </div>
-
-      <!-- Плеер внизу карточки -->
-      <div class="player-container">
-        <h2>Now Playing</h2>
-        <!-- 
-             Параметры: 
-               start=14 (начинается с 14-й секунды),
-               controls=1 (добавляем базовые кнопки),
-               showinfo=0, modestbranding=1 (убираем лишние элементы),
-               autoplay=0 (не запускаем сразу, но можно изменить на 1).
-         -->
-        <iframe
-          class="yt-laconic-frame"
-          src="https://www.youtube.com/embed/pUZgsMNv2AY?start=14&autoplay=0&mute=0&controls=1&showinfo=0&modestbranding=1"
-          allow="autoplay; encrypted-media"
-          allowfullscreen
-        ></iframe>
-      </div>
     </div>
   </div>
 
-  <!-- Скрипт с "белым шариком" за курсором (на ПК) -->
+  <!-- "Белый шарик" за курсором (только на ПК) -->
   <script>
     if (!("ontouchstart" in window)) {
       const cursorBall = document.createElement("div");
@@ -442,7 +420,7 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      // Скрываем loader
+      // Убираем loader
       const loader = document.getElementById('loader');
       setTimeout(() => {
         loader.style.opacity = '0';
