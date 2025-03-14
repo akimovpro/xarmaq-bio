@@ -7,6 +7,7 @@
   <!-- Подключение шрифта Montserrat для остального текста -->
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+
   <style>
     @font-face {
       font-family: 'SF Handwriting Black';
@@ -14,6 +15,7 @@
       font-weight: normal;
       font-style: normal;
     }
+    /* Сброс/базовые стили */
     * {
       margin: 0;
       padding: 0;
@@ -25,6 +27,8 @@
       background: linear-gradient(135deg, #000, #1a1a1a);
       overflow-x: hidden;
     }
+
+    /* Иконки рядом с текстом */
     .icon {
       width: 18px;
       height: 18px;
@@ -37,6 +41,8 @@
       vertical-align: middle;
       margin-left: 2px;
     }
+
+    /* Загрузочный куб */
     #loader {
       position: fixed;
       top: 0; left: 0;
@@ -68,19 +74,19 @@
       background: #333;
       border: 0.1em solid #fff;
     }
-    .front { transform: translateZ(2.5em); }
-    .back { transform: rotateY(180deg) translateZ(2.5em); }
-    .right { transform: rotateY(90deg) translateZ(2.5em); }
-    .left { transform: rotateY(-90deg) translateZ(2.5em); }
-    .top { transform: rotateX(90deg) translateZ(2.5em); }
+    .front  { transform: translateZ(2.5em); }
+    .back   { transform: rotateY(180deg) translateZ(2.5em); }
+    .right  { transform: rotateY(90deg)  translateZ(2.5em); }
+    .left   { transform: rotateY(-90deg) translateZ(2.5em); }
+    .top    { transform: rotateX(90deg)  translateZ(2.5em); }
     .bottom { transform: rotateX(-90deg) translateZ(2.5em); }
+
     @keyframes rotateCube {
-      0% { transform: rotateX(0deg) rotateY(0deg); }
+      0%   { transform: rotateX(0deg) rotateY(0deg); }
       100% { transform: rotateX(360deg) rotateY(360deg); }
     }
-    .loader-side:hover { background: #555; }
-    .loader-side:focus { border: 0.1em solid #999; }
-    .loader-side:active { opacity: 0.8; }
+
+    /* Основной контейнер */
     .container {
       position: relative;
       display: flex;
@@ -91,6 +97,8 @@
       perspective: 1000px;
       background: linear-gradient(135deg, #000, #1a1a1a);
     }
+
+    /* Карточка */
     .profile-card {
       position: relative;
       background: linear-gradient(135deg, rgba(17,17,17,0.5), rgba(17,17,17,0.3));
@@ -126,6 +134,8 @@
       mix-blend-mode: soft-light;
       opacity: 0.2;
     }
+
+    /* Аватар (GIF) */
     .profile-image {
       width: 150px;
       height: 150px;
@@ -143,6 +153,8 @@
     .profile-image:hover {
       transform: rotate(360deg);
     }
+
+    /* Заголовок (ник) */
     h1 {
       position: relative;
       display: inline-block;
@@ -174,16 +186,19 @@
       animation: glitchBottom 0.5s linear infinite;
       opacity: 1;
     }
+
     @keyframes glitchTop {
-      0% { clip: rect(0,9999px,0,0); transform: translate(0); }
-      50% { clip: rect(0,9999px,30px,0); transform: translate(-3px,-3px); }
+      0%   { clip: rect(0,9999px,0,0); transform: translate(0); }
+      50%  { clip: rect(0,9999px,30px,0); transform: translate(-3px,-3px); }
       100% { clip: rect(0,9999px,0,0); transform: translate(0); }
     }
     @keyframes glitchBottom {
-      0% { clip: rect(0,9999px,0,0); transform: translate(0); }
-      50% { clip: rect(30px,9999px,60px,0); transform: translate(3px,3px); }
+      0%   { clip: rect(0,9999px,0,0); transform: translate(0); }
+      50%  { clip: rect(30px,9999px,60px,0); transform: translate(3px,3px); }
       100% { clip: rect(0,9999px,0,0); transform: translate(0); }
     }
+
+    /* Ссылки (Discord, Instagram) */
     .links-row {
       width: 100%;
       display: flex;
@@ -212,12 +227,14 @@
       border-color: #fff;
     }
     @keyframes buttonRock {
-      0% { transform: perspective(1000px) rotateX(0deg) rotateY(0deg); }
-      25% { transform: perspective(1000px) rotateX(2deg) rotateY(-2deg); }
-      50% { transform: perspective(1000px) rotateX(0deg) rotateY(0deg); }
-      75% { transform: perspective(1000px) rotateX(-2deg) rotateY(2deg); }
+      0%   { transform: perspective(1000px) rotateX(0deg) rotateY(0deg); }
+      25%  { transform: perspective(1000px) rotateX(2deg) rotateY(-2deg); }
+      50%  { transform: perspective(1000px) rotateX(0deg) rotateY(0deg); }
+      75%  { transform: perspective(1000px) rotateX(-2deg) rotateY(2deg); }
       100% { transform: perspective(1000px) rotateX(0deg) rotateY(0deg); }
     }
+
+    /* Кнопка Telegram */
     .button-container {
       text-align: center;
       margin-top: 5px;
@@ -243,7 +260,8 @@
     .profile-button:active {
       border-color: #fff;
     }
-    /* Плеер */
+
+    /* Небольшой аккуратный плеер в стиле сайта (внизу карточки) */
     .player-container {
       margin-top: 30px;
       text-align: center;
@@ -255,31 +273,18 @@
       margin-bottom: 15px;
       font-size: 1.3rem;
     }
-    /* "controls" отключим, чтобы стилизовать вручную (пример) */
-    .custom-audio {
-      display: none; /* прячем стандартный плеер */
+    .yt-laconic-frame {
+      width: 360px;     /* Уменьшенный размер */
+      height: 203px;    /* Соотношение 16:9 (360x203) */
+      border: none;
+      border-radius: 8px;
+      overflow: hidden;
+      background: #000;
+      box-shadow: 0 0 10px rgba(255,255,255,0.2);
+      max-width: 100%;
     }
-    .custom-audio-controls {
-      color: #fff;
-      margin-top: 10px;
-      font-size: 1rem;
-    }
-    .play-button,
-    .pause-button {
-      cursor: pointer;
-      padding: 10px 20px;
-      margin: 0 5px;
-      border: 2px solid transparent;
-      background: rgba(51,51,51,0.8);
-      color: #fff;
-      border-radius: 10px;
-      animation: buttonRock 4s infinite ease-in-out;
-      text-decoration: none;
-    }
-    .play-button:hover,
-    .pause-button:hover {
-      border-color: #fff;
-    }
+
+    /* Адаптив для мобильных устройств */
     @media (max-width: 768px) {
       .profile-card {
         width: 90%;
@@ -310,10 +315,16 @@
       .player-container h2 {
         font-size: 1.1rem;
       }
+      .yt-laconic-frame {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 16 / 9;
+      }
     }
+
     @keyframes slideInUp {
       from { transform: translateY(50px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
+      to   { transform: translateY(0);   opacity: 1; }
     }
   </style>
 </head>
@@ -332,15 +343,18 @@
 
   <div class="container">
     <div class="profile-card">
+      <!-- Аватар -->
       <div class="profile-image">
         <img src="https://i.imgur.com/nFDw9PB.gif" alt="Profile Image">
       </div>
 
+      <!-- Ник -->
       <h1 data-text="xarmaq">
         xarmaq
         <img class="name-icon" src="https://i.imgur.com/XCu35tZ.png" alt="Icon">
       </h1>
 
+      <!-- Ссылки -->
       <div class="links-row">
         <a class="link" href="https://discord.com/users/812620606406393886" target="_blank">
           <img class="icon" src="https://www.svgrepo.com/show/353655/discord-icon.svg" alt="Discord Logo">
@@ -352,6 +366,7 @@
         </a>
       </div>
 
+      <!-- Кнопка Telegram -->
       <div class="button-container">
         <a class="profile-button" href="https://telegram.me/xarmaq/" target="_blank">
           <img class="icon" src="https://i.imgur.com/Ws2zUiZ.png" alt="Telegram Logo">
@@ -359,33 +374,33 @@
         </a>
       </div>
 
-      <!-- Плеер -->
+      <!-- Плеер внизу карточки -->
       <div class="player-container">
         <h2>Now Playing</h2>
-
-        <!-- Скрытый стандартный аудиоплеер -->
-        <audio
-          id="myAudio"
-          class="custom-audio"
-          src="your_audio_source.mp3"
-          loop
-        ></audio>
-
-        <!-- Кастомные кнопки -->
-        <div class="custom-audio-controls">
-          <button class="play-button" id="playBtn">Play</button>
-          <button class="pause-button" id="pauseBtn">Pause</button>
-        </div>
+        <!-- 
+             Параметры: 
+               start=14 (начинается с 14-й секунды),
+               controls=1 (добавляем базовые кнопки),
+               showinfo=0, modestbranding=1 (убираем лишние элементы),
+               autoplay=0 (не запускаем сразу, но можно изменить на 1).
+         -->
+        <iframe
+          class="yt-laconic-frame"
+          src="https://www.youtube.com/embed/pUZgsMNv2AY?start=14&autoplay=0&mute=0&controls=1&showinfo=0&modestbranding=1"
+          allow="autoplay; encrypted-media"
+          allowfullscreen
+        ></iframe>
       </div>
     </div>
   </div>
 
-  <!-- Скрипт для движения белого шарика за курсором (только для ПК) -->
+  <!-- Скрипт с "белым шариком" за курсором (на ПК) -->
   <script>
     if (!("ontouchstart" in window)) {
       const cursorBall = document.createElement("div");
       cursorBall.id = "cursor-ball";
       document.body.appendChild(cursorBall);
+
       const style = document.createElement("style");
       style.textContent = `
         #cursor-ball {
@@ -427,7 +442,7 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      // Пробуем скрыть loader через 1 секунду
+      // Скрываем loader
       const loader = document.getElementById('loader');
       setTimeout(() => {
         loader.style.opacity = '0';
@@ -439,7 +454,7 @@
       const restingTransform = 'rotateX(0deg) rotateY(0deg) scale(1)';
       card.style.transform = restingTransform;
 
-      // 3D-эффект для ПК (mousemove)
+      // 3D-эффект (mousemove) на ПК
       card.addEventListener('mousemove', (e) => {
         const rect = card.getBoundingClientRect();
         const x = e.clientX - rect.left;
@@ -456,7 +471,7 @@
         card.style.transform = restingTransform;
       });
 
-      // 3D-эффект для мобильных (touchmove)
+      // 3D-эффект (touchmove) на мобильных
       card.addEventListener('touchmove', (e) => {
         if (e.touches.length === 1) {
           e.preventDefault();
@@ -495,7 +510,7 @@
       function handleOrientation(event) {
         let beta = event.beta;
         let gamma = event.gamma;
-        if (beta > 20) beta = 20;
+        if (beta > 20)  beta = 20;
         if (beta < -20) beta = -20;
         if (gamma > 20) gamma = 20;
         if (gamma < -20) gamma = -20;
@@ -520,24 +535,6 @@
         }
       }
       requestDeviceOrientation();
-
-      // ----- Логика аудио -----
-      const audio = document.getElementById('myAudio');
-      const playBtn = document.getElementById('playBtn');
-      const pauseBtn = document.getElementById('pauseBtn');
-
-      // Пытаемся запустить трек на загрузке (часто будет блокироваться)
-      audio.play().catch(err => {
-        console.warn('Автовоспроизведение заблокировано браузером:', err);
-      });
-
-      // Привязываем кнопки
-      playBtn.addEventListener('click', () => {
-        audio.play().catch(err => console.error(err));
-      });
-      pauseBtn.addEventListener('click', () => {
-        audio.pause();
-      });
     });
   </script>
 </body>
