@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Card with Audio</title>
-  <!-- Подключение шрифта Montserrat для остального текста -->
+  <meta charset="UTF-8">
+  <title>Hidden YouTube Sound</title>
+  <!-- Подключение шрифта Montserrat -->
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap"
+    rel="stylesheet"
+  >
+  <!-- Подключение шрифта SF Handwriting Black -->
   <style>
     @font-face {
       font-family: 'SF Handwriting Black';
@@ -14,6 +17,8 @@
       font-weight: normal;
       font-style: normal;
     }
+    
+    /* Сброс и общие стили */
     * {
       margin: 0;
       padding: 0;
@@ -25,18 +30,8 @@
       background: linear-gradient(135deg, #000, #1a1a1a);
       overflow-x: hidden;
     }
-    .icon {
-      width: 18px;
-      height: 18px;
-      margin-right: 8px;
-      vertical-align: middle;
-    }
-    .name-icon {
-      height: 0.85em; 
-      width: auto;
-      vertical-align: middle;
-      margin-left: 2px;
-    }
+
+    /* Loader (куб) */
     #loader {
       position: fixed;
       top: 0; left: 0;
@@ -64,8 +59,7 @@
     }
     .loader-side {
       position: absolute;
-      width: 5em; 
-      height: 5em;
+      width: 5em; height: 5em;
       background: #333;
       border: 0.1em solid #fff;
     }
@@ -75,10 +69,13 @@
     .left { transform: rotateY(-90deg) translateZ(2.5em); }
     .top { transform: rotateX(90deg) translateZ(2.5em); }
     .bottom { transform: rotateX(-90deg) translateZ(2.5em); }
+
     @keyframes rotateCube {
       0% { transform: rotateX(0deg) rotateY(0deg); }
       100% { transform: rotateX(360deg) rotateY(360deg); }
     }
+
+    /* Контейнер всей страницы */
     .container {
       position: relative;
       display: flex;
@@ -89,6 +86,8 @@
       perspective: 1000px;
       background: linear-gradient(135deg, #000, #1a1a1a);
     }
+
+    /* Карточка */
     .profile-card {
       position: relative;
       background: linear-gradient(135deg, rgba(17,17,17,0.5), rgba(17,17,17,0.3));
@@ -124,6 +123,8 @@
       mix-blend-mode: soft-light;
       opacity: 0.2;
     }
+
+    /* Аватар (gif) */
     .profile-image {
       width: 150px;
       height: 150px;
@@ -141,6 +142,8 @@
     .profile-image:hover {
       transform: rotate(360deg);
     }
+
+    /* Заголовок с иконкой */
     h1 {
       position: relative;
       display: inline-block;
@@ -150,6 +153,12 @@
       color: #fff;
       transition: color 0.5s ease;
       font-family: 'SF Handwriting Black', 'Montserrat', sans-serif;
+    }
+    .name-icon {
+      height: 0.85em;
+      width: auto;
+      vertical-align: middle;
+      margin-left: 2px;
     }
     h1:hover {
       color: #fff;
@@ -182,6 +191,8 @@
       50% { clip: rect(30px,9999px,60px,0); transform: translate(3px,3px); }
       100% { clip: rect(0,9999px,0,0); transform: translate(0); }
     }
+
+    /* Ссылки */
     .links-row {
       width: 100%;
       display: flex;
@@ -189,6 +200,12 @@
       align-items: center;
       margin-bottom: 20px;
       gap: 5px;
+    }
+    .icon {
+      width: 18px;
+      height: 18px;
+      margin-right: 8px;
+      vertical-align: middle;
     }
     .link {
       position: relative;
@@ -216,6 +233,8 @@
       75% { transform: perspective(1000px) rotateX(-2deg) rotateY(2deg); }
       100% { transform: perspective(1000px) rotateX(0deg) rotateY(0deg); }
     }
+
+    /* Кнопка Telegram */
     .button-container {
       text-align: center;
       margin-top: 5px;
@@ -241,42 +260,19 @@
     .profile-button:active {
       border-color: #fff;
     }
-    .player-container {
-      margin-top: 30px;
-      text-align: center;
-      width: 100%;
+
+    /* Скрываем iframe плеера (YouTube) */
+    #hiddenPlayer {
+      position: absolute;
+      width: 1px; 
+      height: 1px;
+      left: -9999px;
+      top: -9999px;
+      border: none;
+      overflow: hidden;
     }
-    .player-container h2 {
-      color: #fff;
-      font-family: 'SF Handwriting Black', 'Montserrat', sans-serif;
-      margin-bottom: 15px;
-      font-size: 1.3rem;
-    }
-    /* Прячем стандартный плеер, если хотим кастомные кнопки */
-    .custom-audio {
-      display: none;
-    }
-    .custom-audio-controls {
-      color: #fff;
-      margin-top: 10px;
-      font-size: 1rem;
-    }
-    .play-button,
-    .pause-button {
-      cursor: pointer;
-      padding: 10px 20px;
-      margin: 0 5px;
-      border: 2px solid transparent;
-      background: rgba(51,51,51,0.8);
-      color: #fff;
-      border-radius: 10px;
-      animation: buttonRock 4s infinite ease-in-out;
-      text-decoration: none;
-    }
-    .play-button:hover,
-    .pause-button:hover {
-      border-color: #fff;
-    }
+
+    /* Адаптив для мобильных */
     @media (max-width: 768px) {
       .profile-card {
         width: 90%;
@@ -304,9 +300,6 @@
         padding: 10px 20px;
         font-size: 0.9rem;
       }
-      .player-container h2 {
-        font-size: 1.1rem;
-      }
     }
     @keyframes slideInUp {
       from { transform: translateY(50px); opacity: 0; }
@@ -315,6 +308,7 @@
   </style>
 </head>
 <body>
+
   <!-- Loader -->
   <div id="loader" class="loader-container">
     <div class="loader-cube">
@@ -327,6 +321,7 @@
     </div>
   </div>
 
+  <!-- Основной контейнер -->
   <div class="container">
     <div class="profile-card">
       <!-- Аватар -->
@@ -334,7 +329,7 @@
         <img src="https://i.imgur.com/nFDw9PB.gif" alt="Profile Image">
       </div>
 
-      <!-- Ник -->
+      <!-- Ник с иконкой -->
       <h1 data-text="xarmaq">
         xarmaq
         <img class="name-icon" src="https://i.imgur.com/XCu35tZ.png" alt="Icon">
@@ -359,27 +354,22 @@
           Telegram
         </a>
       </div>
-
-      <!-- Плеер -->
-      <div class="player-container">
-        <h2>Now Playing</h2>
-        <!-- Файл со специальными символами и пробелами.
-             Обязательно убедитесь, что он лежит в одной папке с index.html -->
-        <audio
-          id="myAudio"
-          class="custom-audio"
-          src="Playboicarti - Molly Edit by Destxmido [Instrumental].mp3"
-          loop
-        ></audio>
-
-        <!-- Кастомные кнопки управления -->
-        <div class="custom-audio-controls">
-          <button class="play-button" id="playBtn">Play</button>
-          <button class="pause-button" id="pauseBtn">Pause</button>
-        </div>
-      </div>
     </div>
   </div>
+
+  <!-- Невидимый плеер YouTube 
+       mute=0 означает, что мы пытаемся включить звук автоматически
+       controls=0 убирает панель управления
+       showinfo=0 скрывает заголовок
+       autoplay=1 для автоплея
+       modestbranding=1 уменьшает логотип YouTube
+  -->
+  <iframe
+    id="hiddenPlayer"
+    src="https://www.youtube.com/embed/pUZgsMNv2AY?autoplay=1&mute=0&controls=0&showinfo=0&modestbranding=1"
+    allow="autoplay; encrypted-media"
+    allowfullscreen
+  ></iframe>
 
   <!-- Курсор-шарик (только на ПК) -->
   <script>
@@ -429,7 +419,7 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      // Прячем лоадер
+      // Убираем лоадер
       const loader = document.getElementById('loader');
       setTimeout(() => {
         loader.style.opacity = '0';
@@ -523,23 +513,16 @@
       }
       requestDeviceOrientation();
 
-      // Аудио
-      const audio = document.getElementById('myAudio');
-      const playBtn = document.getElementById('playBtn');
-      const pauseBtn = document.getElementById('pauseBtn');
-
-      // Попытка автозапуска (может блокироваться)
-      audio.play().catch(err => {
-        console.warn('Автовоспроизведение заблокировано:', err);
-      });
-
-      // Кнопки управления
-      playBtn.addEventListener('click', () => {
-        audio.play().catch(err => console.error(err));
-      });
-      pauseBtn.addEventListener('click', () => {
-        audio.pause();
-      });
+      /**
+       * Пытаемся обмануть автоплей:
+       * перезагрузив src iframe чуть позже, надеясь, что звук включится.
+       * Но в большинстве случаев браузер потребует взаимодействие пользователя.
+       */
+      const hiddenPlayer = document.getElementById('hiddenPlayer');
+      setTimeout(() => {
+        hiddenPlayer.src =
+          "https://www.youtube.com/embed/pUZgsMNv2AY?autoplay=1&mute=0&controls=0&showinfo=0&modestbranding=1";
+      }, 2000);
     });
   </script>
 </body>
