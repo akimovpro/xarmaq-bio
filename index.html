@@ -1,4 +1,129 @@
-rY) * -20;
+}
+    }
+    @keyframes slideInUp {
+      from { transform: translateY(50px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Loader -->
+  <div id="loader" class="loader-container">
+    <div class="loader-cube">
+      <div class="loader-side front"></div>
+      <div class="loader-side back"></div>
+      <div class="loader-side left"></div>
+      <div class="loader-side right"></div>
+      <div class="loader-side top"></div>
+      <div class="loader-side bottom"></div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="profile-card">
+      <!-- Аватарка (GIF) наверху -->
+      <div class="profile-image">
+        <img src="https://i.imgur.com/nFDw9PB.gif" alt="Profile Image">
+      </div>
+
+      <!-- Ник с иконкой справа (уменьшенной и ближе к тексту) -->
+      <h1 data-text="xarmaq">
+        xarmaq
+        <img class="name-icon" src="https://i.imgur.com/XCu35tZ.png" alt="Icon">
+      </h1>
+
+      <!-- Кнопки Discord и Instagram (почти вплотную) -->
+      <div class="links-row">
+        <a class="link" href="https://discord.com/users/812620606406393886" target="_blank">
+          <img class="icon" src="https://www.svgrepo.com/show/353655/discord-icon.svg" alt="Discord Logo">
+          Discord
+        </a>
+        <a class="link" href="https://www.instagram.com/xarmaq/" target="_blank">
+          <img class="icon" src="https://images.seeklogo.com/logo-png/28/2/instagram-new-2016-logo-png_seeklogo-282177.png" alt="Instagram Logo">
+          Instagram
+        </a>
+      </div>
+
+      <!-- Кнопка Telegram внизу карточки -->
+      <div class="button-container">
+        <a class="profile-button" href="https://telegram.me/xarmaq/" target="_blank">
+          <img class="icon" src="https://i.imgur.com/Ws2zUiZ.png" alt="Telegram Logo">
+          Telegram
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Скрипт для движения белого шарика за курсором (только для ПК) -->
+  <script>
+    if (!("ontouchstart" in window)) {
+      const cursorBall = document.createElement("div");
+      cursorBall.id = "cursor-ball";
+      document.body.appendChild(cursorBall);
+      const style = document.createElement("style");
+      style.textContent = 
+        #cursor-ball {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 12px;
+          height: 12px;
+          border-radius: 50%;
+          background: #fff;
+          pointer-events: none;
+          opacity: 0.8;
+          mix-blend-mode: screen;
+          z-index: 9999;
+          filter: blur(1px);
+        }
+      ;
+      document.head.appendChild(style);
+
+      let posX = window.innerWidth / 2;
+      let posY = window.innerHeight / 2;
+      let targetX = posX;
+      let targetY = posY;
+
+      document.addEventListener("mousemove", (e) => {
+        targetX = e.clientX;
+        targetY = e.clientY;
+      });
+
+      function animateCursor() {
+        posX += (targetX - posX) * 0.8;
+        posY += (targetY - posY) * 0.8;
+        cursorBall.style.transform = translate(${posX - 6}px, ${posY - 6}px);
+        requestAnimationFrame(animateCursor);
+      }
+      animateCursor();
+    }
+  </script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Скрываем loader через 1 секунду
+      const loader = document.getElementById('loader');
+      setTimeout(() => {
+        loader.style.opacity = '0';
+        setTimeout(() => loader.style.display = 'none', 500);
+      }, 1000);
+
+      const card = document.querySelector('.profile-card');
+      if (!card) return;
+      const restingTransform = 'rotateX(0deg) rotateY(0deg) scale(1)';
+      card.style.transform = restingTransform;
+
+      // 3D-эффект для ПК (mousemove)
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        const deltaX = x - centerX;
+        const deltaY = y - centerY;
+        const rotateX = (deltaY / cente
+                         rY) * -20;
         const rotateY = (deltaX / centerX) * 20;
         card.style.transform = rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1);
       });
