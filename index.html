@@ -484,14 +484,18 @@
         card.classList.remove('active');
       });
 
+      // Функция "зажима" значения
+      function clamp(value, min, max) {
+        return Math.max(min, Math.min(value, max));
+      }
+
       // 3D-эффект при наклоне телефона (гироскоп)
       function handleOrientation(event) {
-        let beta = event.beta;
-        let gamma = event.gamma;
-        if (beta > 20)  beta = 20;
-        if (beta < -20) beta = -20;
-        if (gamma > 20) gamma = 20;
-        if (gamma < -20) gamma = -20;
+        // beta = наклон "вперёд-назад", gamma = "лево-право"
+        let beta = clamp(event.beta, -20, 20);
+        let gamma = clamp(event.gamma, -20, 20);
+
+        // Переворачиваем beta по вкусу, чтобы при наклоне вперёд карточка вращалась правильно
         const rotateX = -beta;
         const rotateY = gamma;
         card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
