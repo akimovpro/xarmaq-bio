@@ -7,16 +7,16 @@
   <!-- Подключение шрифта Montserrat -->
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://github.com/akimovpro/xarmaq-bio/blob/main/sf-handwriting-black.ttf" rel="stylesheet">
-
+  
   <style>
     /* CSS-переменные для управления размерами шрифтов */
     :root {
       --base-font-size: 16px;
-      --h1-font-size: 3rem;
+      --h1-font-size: 3rem; /* увеличенный размер для заголовка "xarmaq" */
       --link-font-size: 0.95rem;
       --profile-button-font-size: 1rem;
     }
-
+    
     @font-face {
       font-family: 'SF Handwriting Black';
       src: url('sf-handwriting-black.ttf') format('truetype');
@@ -46,7 +46,6 @@
       width: auto;
       vertical-align: middle;
     }
-
     /* Контейнер для галочки, чтобы разместить tooltip */
     .name-icon-container {
       position: relative;
@@ -54,7 +53,6 @@
       cursor: pointer;
       margin-left: 4px;
     }
-
     /* Сама подсказка (плашка) */
     .tooltip {
       position: absolute;
@@ -79,7 +77,6 @@
       pointer-events: auto; 
       transform: translate(-50%, -10px);
     }
-
     /* Loader (куб) */
     #loader {
       position: fixed;
@@ -123,7 +120,6 @@
       0%   { transform: rotateX(0deg) rotateY(0deg); }
       100% { transform: rotateX(360deg) rotateY(360deg); }
     }
-
     .container {
       position: relative;
       display: flex;
@@ -134,7 +130,6 @@
       perspective: 1000px;
       background: linear-gradient(135deg, #000, #1a1a1a);
     }
-
     .profile-card {
       position: relative;
       background: linear-gradient(135deg, rgba(17,17,17,0.5), rgba(17,17,17,0.3));
@@ -170,7 +165,6 @@
       mix-blend-mode: soft-light;
       opacity: 0.2;
     }
-
     .profile-image {
       width: 150px;
       height: 150px;
@@ -188,7 +182,6 @@
     .profile-image:hover {
       transform: rotate(360deg);
     }
-
     h1 {
       position: relative;
       display: inline-block;
@@ -230,7 +223,6 @@
       50%  { clip: rect(30px,9999px,60px,0); transform: translate(3px,3px); }
       100% { clip: rect(0,9999px,0,0); transform: translate(0); }
     }
-
     .links-row {
       width: 100%;
       display: flex;
@@ -265,7 +257,6 @@
       75%  { transform: perspective(1000px) rotateX(-2deg) rotateY(2deg); }
       100% { transform: perspective(1000px) rotateX(0deg) rotateY(0deg); }
     }
-
     .button-container {
       text-align: center;
       margin-top: 5px;
@@ -291,7 +282,6 @@
     .profile-button:active {
       border-color: #fff;
     }
-
     /* Адаптив для мобильных устройств */
     @media (max-width: 768px) {
       .profile-card {
@@ -375,52 +365,32 @@
     </div>
   </div>
 
-  <!-- "Белый шарик" за курсором (только на ПК) -->
+  <!-- Аудио-проигрыватель с кнопкой Play/Pause -->
+  <div class="audio-player" style="text-align: center; margin-top: 20px;">
+    <audio id="audioPlayer" autoplay preload="auto">
+      <source src="https://dn720308.ca.archive.org/0/items/cartimega/Beef%20%28feat.%20Ethereal%29.m4a"  type="audio/mpeg">
+      Ваш браузер не поддерживает элемент audio.
+    </audio>
+    <button id="playPauseButton">Play</button>
+  </div>
+
+  <!-- Скрипт для управления аудио-проигрывателем -->
   <script>
-    if (!("ontouchstart" in window)) {
-      const cursorBall = document.createElement("div");
-      cursorBall.id = "cursor-ball";
-      document.body.appendChild(cursorBall);
+    const audioPlayer = document.getElementById('audioPlayer');
+    const playPauseButton = document.getElementById('playPauseButton');
 
-      const style = document.createElement("style");
-      style.textContent = `
-        #cursor-ball {
-          position: fixed;
-          top: 0;
-          left: 0;
-          width: 12px;
-          height: 12px;
-          border-radius: 50%;
-          background: #fff;
-          pointer-events: none;
-          opacity: 0.8;
-          mix-blend-mode: screen;
-          z-index: 9999;
-          filter: blur(1px);
-        }
-      `;
-      document.head.appendChild(style);
-
-      let posX = window.innerWidth / 2;
-      let posY = window.innerHeight / 2;
-      let targetX = posX;
-      let targetY = posY;
-
-      document.addEventListener("mousemove", (e) => {
-        targetX = e.clientX;
-        targetY = e.clientY;
-      });
-
-      function animateCursor() {
-        posX += (targetX - posX) * 0.8;
-        posY += (targetY - posY) * 0.8;
-        cursorBall.style.transform = `translate(${posX - 6}px, ${posY - 6}px)`;
-        requestAnimationFrame(animateCursor);
+    playPauseButton.addEventListener('click', () => {
+      if (audioPlayer.paused) {
+        audioPlayer.play();
+        playPauseButton.textContent = 'Pause';
+      } else {
+        audioPlayer.pause();
+        playPauseButton.textContent = 'Play';
       }
-      animateCursor();
-    }
+    });
   </script>
 
+  <!-- Остальные скрипты для сайта -->
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       // Убираем loader
@@ -429,7 +399,7 @@
         loader.style.opacity = '0';
         setTimeout(() => loader.style.display = 'none', 500);
       }, 1000);
-
+      
       const card = document.querySelector('.profile-card');
       if (!card) return;
       const restingTransform = 'rotateX(0deg) rotateY(0deg) scale(1)';
