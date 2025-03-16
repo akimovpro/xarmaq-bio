@@ -9,12 +9,19 @@
   <link href="https://github.com/akimovpro/xarmaq-bio/blob/main/sf-handwriting-black.ttf" rel="stylesheet">
 
   <style>
+    /* CSS-переменные для управления размерами шрифтов */
+    :root {
+      --base-font-size: 16px;
+      --h1-font-size: 2rem;
+      --link-font-size: 0.95rem;
+      --profile-button-font-size: 1rem;
+    }
+
     @font-face {
       font-family: 'SF Handwriting Black';
       src: url('sf-handwriting-black.ttf') format('truetype');
       font-weight: normal;
       font-style: normal;
-      font-size: 18pt;
     }
     * {
       margin: 0; 
@@ -24,6 +31,7 @@
     }
     body {
       font-family: 'Montserrat', sans-serif;
+      font-size: var(--base-font-size);
       background: linear-gradient(135deg, #000, #1a1a1a);
       overflow-x: hidden;
     }
@@ -43,14 +51,14 @@
     .name-icon-container {
       position: relative;
       display: inline-block;
-      cursor: pointer; /* чтобы был "указатель" при наведении */
-      margin-left: 4px; /* чтобы чуть отступить иконку от текста */
+      cursor: pointer;
+      margin-left: 4px;
     }
 
     /* Сама подсказка (плашка) */
     .tooltip {
       position: absolute;
-      bottom: 100%;      /* разместить над иконкой */
+      bottom: 100%;
       left: 50%;
       transform: translate(-50%, -5px);
       background: rgba(0,0,0,0.8);
@@ -58,14 +66,12 @@
       padding: 4px 8px;
       font-size: 0.8rem;
       border-radius: 5px;
-      pointer-events: none;   /* чтобы не мешать кликам вне */
+      pointer-events: none;
       opacity: 0;
       transition: opacity 0.3s ease, transform 0.3s ease;
       white-space: nowrap;
       z-index: 9999;
     }
-
-    /* Наведение мыши, фокус клавиатурой или нажатие — показывают tooltip */
     .name-icon-container:hover .tooltip,
     .name-icon-container:focus-within .tooltip,
     .name-icon-container:active .tooltip {
@@ -187,7 +193,7 @@
       position: relative;
       display: inline-block;
       font-weight: 600;
-      font-size: 2rem;
+      font-size: var(--h1-font-size);
       margin-bottom: 30px;
       color: #fff;
       transition: color 0.5s ease;
@@ -246,7 +252,7 @@
       display: inline-flex;
       align-items: center;
       animation: buttonRock 4s infinite ease-in-out;
-      font-size: 0.95rem;
+      font-size: var(--link-font-size);
     }
     .link:hover,
     .link:active {
@@ -273,7 +279,7 @@
       background: rgba(51,51,51,0.8);
       color: #fff;
       padding: 14px 24px;
-      font-size: 1rem;
+      font-size: var(--profile-button-font-size);
       border-radius: 10px;
       cursor: pointer;
       transition: all 0.3s ease;
@@ -341,14 +347,10 @@
         <img src="https://i.imgur.com/nFDw9PB.gif" alt="Profile Image">
       </div>
 
-      <!-- Используем <span class="name-icon-container"> для иконки с галочкой -->
       <h1 data-text="xarmaq">
         xarmaq
-        <!-- Вот тут располагаем нашу иконку + tooltip -->
         <span class="name-icon-container">
-          <!-- tabindex="0" для возможности фокуса с клавиатуры -->
           <img class="name-icon" src="https://i.imgur.com/XCu35tZ.png" alt="Icon" tabindex="0">
-          <!-- Невидимая по умолчанию подсказка -->
           <span class="tooltip">developer</span>
         </span>
       </h1>
@@ -485,23 +487,17 @@
         card.classList.remove('active');
       });
 
-      // Функция "зажима" значения
+      // Гироскоп (наклон телефона)
       function clamp(value, min, max) {
         return Math.max(min, Math.min(value, max));
       }
-
-      // 3D-эффект при наклоне телефона (гироскоп)
       function handleOrientation(event) {
-        // beta = наклон "вперёд-назад", gamma = "лево-право"
         let beta = clamp(event.beta, -20, 20);
         let gamma = clamp(event.gamma, -20, 20);
-
-        // Переворачиваем beta по вкусу, чтобы при наклоне вперёд карточка вращалась правильно
         const rotateX = -beta;
         const rotateY = gamma;
         card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
       }
-
       function requestDeviceOrientation() {
         if (typeof DeviceOrientationEvent.requestPermission === 'function') {
           DeviceOrientationEvent.requestPermission()
